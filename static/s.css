@@ -1,0 +1,23 @@
+.fa-check {
+    margin-top: 1px
+}
+
+.fa-eye-slash {
+    margin-left: 1px
+}
+
+.fa-eye {
+    margin-left: 1px
+}
+
+.signup_bg {
+    background-color: green !important
+}
+
+.warning {
+    border: 1px solid red !important
+}
+.card.active .signup{
+    right:100% !important;
+    position:absolute;
+}
