@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chatbot</title>
+<style>
+  body {
+    background: linear-gradient(135deg, #ff9933, #ffffff, #138808);
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: #f0f0f0;
+  }
+
+  .navbar {
+  background-color: #ff9933; /* Saffron to Green */
+  color: #fff;
+  padding: 20px;
+  box-sizing: border-box;
+  text-align: center;
+  cursor: default;
+  }
+
+  .navbar h1 {
+  margin: 0;
+  transition: transform 0.3s ease; /* Add transition for smooth hover effect */
+  transform: translateY(-5px); /* Move text 5 pixels up on hover */
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3); /* Add shadow effect */
+    padding: 10px;
+    border-radius: 30px;
+  }
+
+  .navbar h1:hover {
+    text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.7); /* Add glow effect */
+  }
+
+
+  #chat-container {
+  background-image: url('https://images.rawpixel.com/image_800/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvdjk5Ni0wMTFfMS1rcm9pcjFmNC5qcGc.jpg');
+  border-radius: 10px;
+  padding: 20px;
+   box-shadow: 0px 16px 32px rgba(0, 0, 0, 0.4); /* Increase shadow size */
+  margin: auto; /* Center horizontally and vertically */
+  width: 80%; /* Set width */
+  max-width: 80%; /* Add maximum width for responsiveness */
+  height: 72vh; /* Set height */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Ensure input and button are at the bottom */
+  align-items: center;
+}
+
+
+
+  #chat-container p {
+  margin-bottom: 20px;
+  font-family: 'Arial', sans-serif;
+  color: #777;
+  font-size: 24px;
+  font-weight: bold;
+  background-color: rgba(255, 255, 255, 0.3); /* Adjust the last value (0.8) to change the transparency */
+  padding: 10px; /* Increase padding for more space */
+  border-radius: 15px; /* Increase border radius for a smoother appearance */
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2); /* Adjust shadow to make it look floating */
+  transition: box-shadow 0.3s ease; /* Add transition for smooth hover effect */
+  cursor: default;
+}
+
+#chat-container p:hover {
+  box-shadow: 0px 12px 30px rgba(0, 0, 0, 0.3); /* Increase shadow on hover */
+
+}
+
+
+
+  h1 {
+    margin: 0;
+  }
+
+
+
+  #chat-history {
+    height: 300px;
+    overflow-y: scroll;
+  }
+
+  .user-message {
+    text-align: right;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    margin-bottom: 5px;
+  }
+
+  .bot-message {
+    text-align: left;
+    padding: 10px;
+    background-color: #e0f0e0;
+    border-radius: 10px;
+    margin-bottom: 5px;
+  }
+
+  form {
+  align-self: flex-end; /* Align form at the bottom */
+  display: flex;
+  width: 75%; /* Set form width to 100% */
+}
+
+
+  input {
+  flex-grow: 1;
+  margin-right: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 500px; /* Set width to 100% */
+  max-width: 500px; /* Set maximum width if needed */
+  border-width:2px;
+border-color: #4CAF50;
+}
+
+input:hover{
+border-width:2px;
+border-color: #4CAF50;
+transform: scale(1.02);
+}
+
+input:active {
+border-color: #FF9933; /* Saffron */
+color:white;
+transform: scale(0.99);
+}
+
+  button {
+  background-color: #FF9933; /* Saffron */
+  background-image: linear-gradient(to bottom, #FF9933, #FFD699); /* Saffron to Light Saffron */
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform 0.3s, background-color 0.3s;
+}
+
+button:hover {
+  transform: scale(1.1); /* Increase size on hover */
+}
+
+
+button:active {
+  transform: scale(0.9);
+  background-color: orange; /* Orange on press */
+}
+
+
+  #loader {
+    display: none; /* Hide by default */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .tutorial-icon {
+  position: fixed;
+  bottom: -4px; /* Adjust the distance from the bottom */
+  left: 0px;
+  z-index: 1000; /* Ensure it's above other content */
+}
+
+
+.tutorial-icon a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #333;
+}
+
+.tutorial-icon img {
+  width: 12vh; /* Adjust icon size */
+  height: 12vh; /* Adjust icon size */
+  border-radius: 50%; /* Make the icon circular */
+  margin-right: 0px;
+}
+
+
+
+  .footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #006400; /* Saffron to Dark Green */
+  color: #fff;
+  padding: 2px;
+  box-sizing: border-box;
+  text-align: center;
+  cursor: default;
+}
+
+
+</style>
+</head>
+<body>
+  <div class="navbar">
+    <h1>FIR-SAHAYAK - Register online FIR with ease</h1>
+  </div>
+  <div id="chat-container">
+    <p style="margin-bottom: 20px;">Instant FIR Assistance: File Your Report Here!</p> <!-- Added text here -->
+    <div id="chat-history"></div>
+    <form id="chat-form">
+      <input type="text" id="user-input" placeholder="Enter your message">
+      <button type="submit">Send</button>
+    </form>
+  </div>
+  <div id="loader">
+    <img src="https://media2.giphy.com/media/3oEjI6SIIHBdRxXI40/200w.gif" width="150px" alt="Loading...">
+  </div>
+  <div class="tutorial-icon">
+  <a href="https://www.youtube.com/watch?v=C_FUUf-MRYY" target="_blank">
+    <img src="https://png.pngtree.com/png-clipart/20230818/original/pngtree-video-tutorials-icon-concept-picture-image_8024906.png" alt="Tutorial Icon">
+  </a>
+</div>
+  <br>
+  <br>
+  <br>
+  <div class="footer">
+  <p>© Content Owned by Group 101, VIT Bhopal University students. @FIR-SAHAYAK - Register online FIR with ease ©2024</p>
+</div>
+
+
+  <script>
+    const chatHistory = document.getElementById('chat-history');
+    const userInput = document.getElementById('user-input');
+    const form = document.getElementById('chat-form');
+
+    async function sendMessage() {
+      const userMessage = userInput.value;
+      userInput.value = ''; // Clear input field
+      console.log(userMessage)
+      try {
+        const response = await fetch('/chat', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ userInput: userMessage }),
+        });
+
+        const chatForm = document.getElementById('chat-form');
+        const instantFIRText = document.querySelector('#chat-container p');
+
+        // Function to hide the paragraph
+        function hideInstantFIRText() {
+          instantFIRText.style.display = 'none'; // Hide the paragraph
+        }
+
+        // Event listener for form submission
+        chatForm.addEventListener('submit', (event) => {
+          event.preventDefault(); // Prevent form submission
+          hideInstantFIRText(); // Hide the paragraph
+          sendMessage(); // Call the sendMessage function
+        });
+
+        // Event listener for Enter key press in the input field
+        userInput.addEventListener('keyup', (event) => {
+          if (event.key === 'Enter') {
+            hideInstantFIRText(); // Hide the paragraph
+          }
+        });
+
+
+
+        const data = await response.json();
+        console.log(data)
+        const botMessage = data.response;
+        console.log(botMessage)
+        // Add chat message to the chat history
+        chatHistory.innerHTML += `<div class="user-message">${userMessage}</div>`;
+        chatHistory.innerHTML += `<div class="bot-message">${botMessage}</div>`;
+
+        // Scroll to the bottom of the chat history
+        chatHistory.scrollTop = chatHistory.scrollHeight;
+      } catch (error) {
+        console.error('Error:', error);
+        // Handle errors gracefully, e.g., display an error message to the user
+      }
+    }
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault(); // Prevent form submission
+      const loader = document.getElementById('loader');
+      loader.style.display = 'block'; // Show the loader
+      sendMessage().finally(() => {
+      loader.style.display = 'none'; // Hide the loader after the message is sent
+    });;
+    });
+  </script>
+</body>
+</html>

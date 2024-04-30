@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FIR Registration Form</title>
+    <style>
+        /* Add your CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        fieldset {
+            border: 1px solid #000;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        legend {
+            font-weight: bold;
+            display: inline-block;
+            width: 100%;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"],
+        input[type="date"] {
+            width: calc(100% - 12px);
+            padding: 5px;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+        textarea {
+            width: calc(100% - 12px);
+            padding: 5px;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+            height: 100px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>First Information Report (FIR)</h1>
+    <p>(Under Section 154 of the Criminal Procedure Code)</p>
+    <form id="firForm">
+        <fieldset>
+            <legend >Police Station - Bhopal  | District - Bhopal</legend>
+            <label for="policeStation">Police Station:</label>
+            <input type="text" id="policeStation" name="policeStation" required>
+            <label for="district">District:</label>
+            <input type="text" id="district" name="district" required>
+        </fieldset>
+        <fieldset>
+            <legend>1. Personal details of the Complainant / Informant:</legend>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+            <label for="fatherName">Father's / Husband's Name:</label>
+            <input type="text" id="fatherName" name="fatherName" required>
+            <label for="address">Address:</label>
+            <input type="text" id="address" name="address" required>
+            <label for="phoneFax">Phone number & Fax:</label>
+            <input type="text" id="phoneFax" name="phoneFax" required>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+        </fieldset>
+        <fieldset>
+            <legend>2. Place of Occurrence:</legend>
+            <label for="distance">Distance from the police station:</label>
+            <input type="text" id="distance" name="distance" required>
+            <label for="direction">Direction from the police station:</label>
+            <input type="text" id="direction" name="direction" required>
+        </fieldset>
+        <fieldset>
+            <legend>3. Date and Hour of Occurrence:</legend>
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date" required>
+            <label for="time">Hour:</label>
+            <input type="time" id="time" name="time" required>
+        </fieldset>
+        <fieldset>
+            <legend>4. Offence:</legend>
+            <label for="nature">Nature of the offence:</label>
+            <input type="text" id="nature" name="nature" required>
+            <label for="section">Section:</label>
+            <input type="text" id="section" name="section" required>
+            <label for="particulars">Particulars of the property:</label>
+            <textarea id="particulars" name="particulars" required></textarea>
+        </fieldset>
+        <fieldset>
+            <legend>5. Description of the accused:</legend>
+            <textarea id="description" name="description" required></textarea>
+        </fieldset>
+        <fieldset>
+            <legend>6. Details of witnesses (if any):</legend>
+            <textarea id="witnesses" name="witnesses"></textarea>
+        </fieldset>
+        <fieldset>
+            <legend>7. Complaint:</legend>
+            <textarea id="complaint" name="complaint" required></textarea>
+        </fieldset>
+    </form>
+    <button onclick="printPage()">Print as PDF</button>
+
+    <script>
+        function printPage() {
+            window.print();
+        }
+        // Add JavaScript to fill form fields dynamically
+    </script>
+</body>
+</html>

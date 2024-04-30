@@ -1,0 +1,4 @@
+2024-04-30T06:57:32.002Z: User: hello, Bot: Hello there! Welcome to the FIR Register Portal chatbot. I'm here to assist you in filing an FIR (First Information Report). May I know the nature of the incident you'd like to report?
+2024-04-30T06:57:40.959Z: User: my bag got stolen , Bot: I'm sorry to hear that. Can you please describe what type of bag it was and what was inside it?
+2024-04-30T06:57:48.394Z: User: nadra bus stop , Bot: Could you please provide more context or information about the Nadra bus stop?
+2024-04-30T06:58:08.406Z: User: at date 30 april 2024, Bot: Thank you for providing the date - April 30, 2024. I have updated the FIR report accordingly. Please confirm if there are any other details that need to be revised or if everything else remains the same.
