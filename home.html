@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FIR SAHAYAK</title>
+    <link rel="shortcut icon" href="https://assets-global.website-files.com/64a2ab71942e1d57feb6fe39/6528221f95333ff155d01ad2_fav.gif" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@3.5.4/dist/locomotive-scroll.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/home.css') }}">
+</head>
+
+<body>
+    <nav>
+        <div class="logo-container">
+            <!-- Your logo goes here -->
+            <img src="https://i.ibb.co/4shBM7Y/pngwing-com.png" alt="Logo">
+        </div>
+
+            <!-- Rest of your navbar content -->
+        <h1>FIR SAHAYAK</h1>
+        <p></p>
+        <div class="nav-part2">
+            <div class="nav-elem">
+                <h4>USER PROFILE</h4>
+                <h5><a href="/dashboard">Account</a></h5>
+            </div>
+            <div class="nav-elem">
+                <h4>MISSING</h4>
+                <h5><span>MISSING PERSON SEARCH</span></h5>
+                <h5><span>MISSING PERSON/CHILDREN</span></h5>
+                <h5><span>REPORT FOUND(GNCTD)</span></h5>
+            </div>
+            <div class="nav-elem">
+                <h4>THEFT</h4>
+                <h5><span>LOST MONEY</span></h5>
+                <h5><span>LOST ELECTRONIC ITEM</span></h5>
+                <h5><span>ROBBERY</span></h5>
+            </div>
+            <div class="nav-elem">
+                <h4>SEXUAL ASSAULT</h4>
+                <h5><span>RAPE</span></h5>
+                <h5><span>MOLESTATION</span></h5>
+                <h5><span>DOMESTIC VIOLENCE</span></h5>
+            </div>
+            <div class="nav-elem">
+                <h4>HIT AND RUN</h4>
+                <h5><span>VEHICLE </span></h5>
+                <h5><span>PEDESTRIAN</span></h5>
+                <h5><span>PROPERTY DAMAGE</span></h5>
+            </div>
+
+            <div class="nav-elem">
+                <h4>VIEW FIR STATUS</h4>
+                <h5><span>VIEW STATUS</span></h5>
+            </div>
+        </div>
+        <button id = "botButton">REGISTER FIR<svg fill="none" viewBox="0 0 20 20">
+                <path fill="#fff"
+                    d="M2.5 14.375V17.5h3.125l9.217-9.217-3.125-3.125L2.5 14.375Zm14.758-8.508a.83.83 0 0 0 0-1.175l-1.95-1.95a.83.83 0 0 0-1.175 0l-1.525 1.525 3.125 3.125 1.525-1.525Z">
+                </path>
+            </svg></button>
+        <div id="nav-bottom">
+
+        </div>
+    </nav>
+    <div id="main">
+        <div id="page1">
+            <div class="slide-container">
+
+                <div class="slides">
+                    <img src="https://i.ibb.co/yk24mdX/Untitled-design-5.png" class="active">
+                    <img src="https://i.ibb.co/h76PSpk/Welcome-to-our-online-FIR-registration-platform-where-justice-meets-convenience-With-the-backdrop-of.png">
+                    <img src="https://i.ibb.co/pw1nGjk/Welcome-to-our-online-FIR-registration-platform-where-justice-meets-convenience-With-the-backdrop-of.png">
+                    <img src="https://digitalpolice.gov.in/Content/images/banner.jpg">
+                    <img src="https://i.ibb.co/h76PSpk/Welcome-to-our-online-FIR-registration-platform-where-justice-meets-convenience-With-the-backdrop-of.png">
+                    <img src="https://i.ibb.co/pw1nGjk/Welcome-to-our-online-FIR-registration-platform-where-justice-meets-convenience-With-the-backdrop-of.png">
+                    <img src="https://digitalpolice.gov.in/Content/images/banner.jpg">
+                </div>
+
+                <div class="buttons">
+                    <span class="next">&#10095;</span>
+                    <span class="prev">&#10094;</span>
+                </div>
+
+                <div class="dotsContainer">
+                    <div class="dot active" attr='0' onclick="switchImage(this)"></div>
+                    <div class="dot" attr='1' onclick="switchImage(this)"></div>
+                    <div class="dot" attr='2' onclick="switchImage(this)"></div>
+                    <div class="dot" attr='3' onclick="switchImage(this)"></div>
+                    <div class="dot" attr='5' onclick="switchImage(this)"></div>
+                    <div class="dot" attr='6' onclick="switchImage(this)"></div>
+                </div>
+
+            </div>
+              <!--image slider end-->
+            <div id="moving-div">
+                <div id="blur-left"></div>
+                <div class="move">
+                    <img src="https://cdn.dnaindia.com/sites/default/files/styles/full/public/2015/12/27/408883-delhi-police-logo.jpg" alt="">
+                    <img src="https://tse4.mm.bing.net/th?id=OIP.7K7QEzRfQpeDVLWtKiij3gHaNK&pid=Api&P=0&h=180" alt="">
+                    <img src="https://aniportalimages.s3.amazonaws.com/media/details/SKFDJKLASJFKLJASD2021081908114120210916090821.jpg" alt="">
+                    <img src="https://tse3.mm.bing.net/th?id=OIP.-Zku30boNYU7Yr8Jx6w8xwHaDn&pid=Api&P=0&h=180" alt="">
+                    <img src="https://imgk.timesnownews.com/story/Chennai-Police.jpg" alt="">
+                    <img src="https://tse2.mm.bing.net/th?id=OIP.My0L79vf3wzPD4e1hI93LAHaEK&pid=Api&P=0&h=180" alt="">
+                    <img src="https://tse2.mm.bing.net/th?id=OIP.F3M37dvPL1IBD-4lrbGd6wHaHa&pid=Api&P=0&h=180" alt="">
+                    <img src="https://tse4.mm.bing.net/th?id=OIP.glM8EsNibecQHbipBN2ygwHaEq&pid=Api&P=0&h=180" alt="">
+                </div>
+                <div class="move">
+                    <img src="https://cdn.dnaindia.com/sites/default/files/styles/full/public/2015/12/27/408883-delhi-police-logo.jpg" alt="">
+                    <img src="https://tse4.mm.bing.net/th?id=OIP.7K7QEzRfQpeDVLWtKiij3gHaNK&pid=Api&P=0&h=180" alt="">
+                    <img src="https://aniportalimages.s3.amazonaws.com/media/details/SKFDJKLASJFKLJASD2021081908114120210916090821.jpg" alt="">
+                    <img src="https://tse3.mm.bing.net/th?id=OIP.-Zku30boNYU7Yr8Jx6w8xwHaDn&pid=Api&P=0&h=180" alt="">
+                    <img src="https://imgk.timesnownews.com/story/Chennai-Police.jpg" alt="">
+                    <img src="https://tse2.mm.bing.net/th?id=OIP.My0L79vf3wzPD4e1hI93LAHaEK&pid=Api&P=0&h=180" alt="">
+                    <img src="https://tse2.mm.bing.net/th?id=OIP.F3M37dvPL1IBD-4lrbGd6wHaHa&pid=Api&P=0&h=180" alt="">
+                    <img src="https://tse4.mm.bing.net/th?id=OIP.glM8EsNibecQHbipBN2ygwHaEq&pid=Api&P=0&h=180" alt="">
+                </div>
+                <div id="blur-right"></div>
+
+            </div>
+        </div>
+    <div id="page3">
+        <video src="fir-sahayak.mp4"></video>
+        <div class="page3-center">
+            <div class="icon">
+                <i class="ri-play-fill"></i>
+            </div>
+            <h5>Watch BOT DEMO</h5>
+        </div>
+    </div>
+    <div id="page5">
+        <div class="button">
+            <a href="/sign_up">Login/Sign_up</a>
+          </div>
+        <div id="page5-right">
+            <p><span></span>FIR Sahayak is an initiative started by  <span></span>Group no. 101 . This is a portal for online FIR registration where users can simply answer required question and get there FIR registered.
+                Qui, a aut! Aspernatur et nesciunt iure consequuntur nisi quisquam amet deserunt odit temporibus! Iusto laboriosam pariatur voluptas fugiat accusantium corrupti unde aliquam repellendus hic impedit? Consequuntur..</p>
+            <div id="page5-content">
+                <div class="uiux">
+                    <details open>
+                        <summary>
+                            <h1>FAQ's</h1>
+                        </summary>
+                        <div id="page-container">
+                            <div class="page5-elem">
+                                <div class="over"></div>
+                                <h3>Safety</h3>
+                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus consequatur
+                                    error, enim in iure distinctio, pariatur quibusdam nobis dolor laborum nulla
+                                    animi mollitia voluptas odit, praesentium magni. Exercitationem, tenetur? Illum,
+                                    ducimus.</p>
+                                <i class="ri-arrow-right-up-line"></i>
+                            </div>
+                            <div class="page5-elem">
+                                <div class="over"></div>
+                                <h3>legal</h3>
+                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus consequatur
+                                    error, enim in iure distinctio, pariatur quibusdam nobis dolor laborum nulla
+                                    animi mollitia voluptas odit, praesentium magni. Exercitationem, tenetur? Illum,
+                                    ducimus.</p>
+                                <i class="ri-arrow-right-up-line"></i>
+                            </div>
+                            <div class="page5-elem">
+                                <div class="over"></div>
+                                <h3>how to trust</h3>
+                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus consequatur
+                                    error, enim in iure distinctio, pariatur quibusdam nobis dolor laborum nulla
+                                    animi mollitia voluptas odit, praesentium magni. Exercitationem, tenetur? Illum,
+                                    ducimus.</p>
+                                <i class="ri-arrow-right-up-line"></i>
+                            </div>
+                            <div class="page5-elem">
+                                <div class="over"></div>
+                                <h3>############</h3>
+                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus consequatur
+                                    error, enim in iure distinctio, pariatur quibusdam nobis dolor laborum nulla
+                                    animi mollitia voluptas odit, praesentium magni. Exercitationem, tenetur? Illum,
+                                    ducimus.</p>
+                                <i class="ri-arrow-right-up-line"></i>
+                            </div>
+                        </div>
+                    </details>
+            </div>
+    </div>
+    </div>
+    </div>
+    <div class="page-end">
+        <footer>
+            <div class="container">
+                <div class="footer-content">
+                    <ul class="list first">
+                    <li><a href="">Privacy Policy</a></li>
+                        <li><a href="">Copywrite Policy</a></li>
+                        <li><a href="">Hyperlink Policy</a></li>
+                        <li><a href="">Accessiblity Statement</a></li>
+                        <li><a href="">Terms and Conditions</a></li>
+                    </ul>
+                </div>
+                <div class="footer-content">
+                    <h3>Quick Links</h3>
+                        <ul class="list">
+                        <li><a href="">Home</a></li>
+                        <li><a href="">About</a></li>
+                        <li><a href="">Services</a></li>
+                        <li><a href="">Products</a></li>
+                        <li><a href="">Contact</a></li>
+                        </ul>
+                </div>
+                <div class="footer-content">
+                    <h3>Follow Us</h3>
+                    <ul class="social-icons">
+                        <li><a href=""><i class="fab fa-facebook"></i></a></li>
+                        <li><a href=""><i class="fab fa-twitter"></i></a></li>
+                        <li><a href=""><i class="fab fa-instagram"></i></a></li>
+                        <li><a href=""><i class="fab fa-linkedin"></i></a></li>
+                    </ul>
+                    </div>
+            </div>
+            <div class="bottom-bar">
+                <p>&copy; 2023 your company . All rights reserved</p>
+            </div>
+        </footer>
+    </div>
+    </div>
+
+    <script>
+        // JavaScript to handle button click event
+        document.getElementById("botButton").addEventListener("click", function() {
+            // Redirect to the bot interface page
+            window.location.href = "http://localhost:3000";
+
+        });
+        </script>
+   
+<script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@3.5.4/dist/locomotive-scroll.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" 
+integrity="sha512-7eHRwcbYkK4d9g/6tD/mhkf++eoTHwpNM9woBxtPUBWm67zeAfFC+HrdoE2GanKeocly/VxeLvIqwvCdk7qScg==" 
+crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"
+    integrity="sha512-onMTRKJBKz8M1TnqqDuGBlowlH0ohFzMXYRNebz+yOcc5TQr/zAKsthzhuv0hiyUKEiQEQXEynnXCvNTOk50dg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+<script src="https://kit.fontawesome.com/1165876da6.js" crossorigin="anonymous"></script>
+<script>
+        // Access the Images
+let slideImages = document.querySelectorAll('img');
+// Access the next and prev buttons
+let next = document.querySelector('.next');
+let prev = document.querySelector('.prev');
+// Access the indicators
+let dots = document.querySelectorAll('.dot');
+
+var counter = 0;
+
+// Code for next button
+next.addEventListener('click', slideNext);
+function slideNext(){
+slideImages[counter].style.animation = 'next1 0.5s ease-in forwards';
+if(counter >= slideImages.length-1){
+counter = 0;
+}
+else{
+counter++;
+}
+slideImages[counter].style.animation = 'next2 0.5s ease-in forwards';
+indicators();
+}
+
+// Code for prev button
+prev.addEventListener('click', slidePrev);
+function slidePrev(){
+slideImages[counter].style.animation = 'prev1 0.5s ease-in forwards';
+if(counter == 0){
+counter = slideImages.length-1;
+}
+else{
+counter--;
+}
+slideImages[counter].style.animation = 'prev2 0.5s ease-in forwards';
+indicators();
+}
+
+// Auto slideing
+function autoSliding(){
+deletInterval = setInterval(timer, 3000);
+function timer(){
+slideNext();
+indicators();
+}
+}
+autoSliding();
+
+// Stop auto sliding when mouse is over
+const container = document.querySelector('.slide-container');
+container.addEventListener('mouseover', function(){
+clearInterval(deletInterval);
+});
+
+// Resume sliding when mouse is out
+container.addEventListener('mouseout', autoSliding);
+
+// Add and remove active class from the indicators
+function indicators(){
+for(i = 0; i < dots.length; i++){
+dots[i].className = dots[i].className.replace(' active', '');
+}
+dots[counter].className += ' active';
+}
+
+// Add click event to the indicator
+function switchImage(currentImage){
+currentImage.classList.add('active');
+var imageId = currentImage.getAttribute('attr');
+if(imageId > counter){
+slideImages[counter].style.animation = 'next1 0.5s ease-in forwards';
+counter = imageId;
+slideImages[counter].style.animation = 'next2 0.5s ease-in forwards';
+}
+else if(imageId == counter){
+return;
+}
+else{
+slideImages[counter].style.animation = 'prev1 0.5s ease-in forwards';
+counter = imageId;
+slideImages[counter].style.animation = 'prev2 0.5s ease-in forwards';	
+}
+indicators();
+}
+        
+    
+
+
+    function locomotiveAnimation() {
+        gsap.registerPlugin(ScrollTrigger);
+
+        const locoScroll = new LocomotiveScroll({
+            el: document.querySelector("#main"),
+            smooth: true,
+
+            // for tablet smooth
+            tablet: { smooth: true },
+
+            // for mobile
+            smartphone: { smooth: true }
+        });
+        locoScroll.on("scroll", ScrollTrigger.update);
+
+        ScrollTrigger.scrollerProxy("#main", {
+            scrollTop(value) {
+                return arguments.length
+                    ? locoScroll.scrollTo(value, 0, 0)
+                    : locoScroll.scroll.instance.scroll.y;
+            },
+            getBoundingClientRect() {
+                return {
+                    top: 0,
+                    left: 0,
+                    width: window.innerWidth,
+                    height: window.innerHeight
+                };
+            }
+        });
+
+            ScrollTrigger.addEventListener("refresh", () => locoScroll.update());
+
+            ScrollTrigger.refresh();
+        }
+
+        function loadingAnimation() {
+
+            var tl = gsap.timeline()
+            tl.from("#page1", {
+                opacity: 0,
+                duration: 0.2,
+                delay: 0.2
+            })
+            tl.from("#page1", {
+                transform: "scaleX(0.7) scaleY(0.2) translateY(80%)",
+                borderRadius: "150px",
+                duration: 2,
+                ease: "expo.out"
+            })
+            tl.from("nav", {
+                opacity: 0,
+                delay: -0.2
+            })
+            tl.from("#page1 h1, #page1 p, #page1 div", {
+                opacity: 0,
+                duration: 0.5,
+                stagger: 0.2
+            })
+        }
+
+        function navAnimation() {
+            var nav = document.querySelector("nav")
+
+            nav.addEventListener("mouseenter", function () {
+                let tl = gsap.timeline()
+
+                tl.to("#nav-bottom", {
+                    height: "21vh",
+                    duration: 0.5
+                })
+                tl.to(".nav-part2 h5", {
+                    display: "block",
+                    duration: 0.1
+
+                })
+                tl.to(".nav-part2 h5 span", {
+                    y: 0,
+                    // duration:0.3,
+                    stagger: {
+                        amount: 0.5
+                    }
+                })
+            })
+            nav.addEventListener("mouseleave", function () {
+                let tl = gsap.timeline()
+                tl.to(".nav-part2 h5 span", {
+                    y: 25,
+                    stagger: {
+                        amount: 0.2
+                    }
+                })
+                tl.to(".nav-part2 h5", {
+                    display: "none",
+                    duration: 0.1
+                })
+                tl.to("#nav-bottom", {
+                    height: 0,
+                    duration: 0.2
+                })
+            })
+        }
+
+        function page2Animation() {
+            var rightElems = document.querySelectorAll(".right-elem")
+
+            rightElems.forEach(function (elem) {
+                elem.addEventListener("mouseenter", function () {
+
+
+
+
+                    gsap.to(elem.childNodes[3], {
+                        opacity: 1,
+                        scale: 1
+                    })
+                })
+                elem.addEventListener("mouseleave", function () {
+                    gsap.to(elem.childNodes[3], {
+                        opacity: 0,
+                        scale: 0
+                    })
+                })
+                elem.addEventListener("mousemove", function (dets) {
+
+                    gsap.to(elem.childNodes[3], {
+                        x: dets.x - elem.getBoundingClientRect().x - 90,
+                        y: dets.y - elem.getBoundingClientRect().y - 215
+                    })
+                })
+            })
+        }
+
+        function page3VideoAnimation() {
+            var page3Center = document.querySelector(".page3-center")
+            var video = document.querySelector("#page3 video")
+
+            page3Center.addEventListener("click", function () {
+                video.play()
+                gsap.to(video, {
+                    transform: "scaleX(1) scaleY(1)",
+                    opacity: 1,
+                    borderRadius: 0
+
+                })
+            })
+            video.addEventListener("click", function () {
+                video.pause()
+                gsap.to(video, {
+                    transform: "scaleX(0.7) scaleY(0)",
+                    opacity: 0,
+                    borderRadius: "30px"
+                })
+            })
+
+
+            var sections = document.querySelectorAll(".sec-right")
+
+            sections.forEach(function (elem) {
+                elem.addEventListener("mouseenter", function () {
+                    elem.childNodes[3].style.opacity = 1
+                    elem.childNodes[3].play()
+                })
+                elem.addEventListener("mouseleave", function () {
+                    elem.childNodes[3].style.opacity = 0
+                    elem.childNodes[3].load()
+                })
+            })
+
+        }
+
+        function page6Animations() {
+            gsap.from("#btm6-part2 h4", {
+                x: 0,
+                duration: 1,
+                scrollTrigger: {
+                    trigger: "#btm6-part2",
+                    scroller: "#main",
+                    // markers:true,
+                    start: "top 80%",
+                    end: "top 10%",
+                    scrub: true
+                }
+            })
+        }
+        function typewriter(){
+            var typed = new Typed(".auto-type",{
+                strings:["First Information report registration BOT","Now you can register the FIR online","Fast and Reliable"],
+                typeSpeed:150,
+                backSpedd:150,
+                loop:true,
+            })
+        }
+
+        locomotiveAnimation()
+
+        navAnimation()
+
+        page2Animation()
+
+        page3VideoAnimation()
+
+        page6Animations()
+
+        loadingAnimation()
+        typewriter()
+      
+       
+    </script>
+</body>
+
+</html>
