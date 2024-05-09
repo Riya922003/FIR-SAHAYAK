@@ -1,23 +1,46 @@
-.fa-check {
-    margin-top: 1px
+.preview {
+    color: #555;
+    width: 100%;
+    text-align: center;
+    height: 40px;
+    line-height: 40px;
+    letter-spacing: 8px;
+    border: 1px solid;
 }
 
-.fa-eye-slash {
-    margin-left: 1px
+.preview span {
+    display: inline-block;
+    user-select: none;
 }
 
-.fa-eye {
-    margin-left: 1px
+.captcha-form {
+    display: flex;
+    width: 100%;
 }
 
-.signup_bg {
-    background-color: green !important
+#captha-form {
+    display:flex;
+    margin-top: 15px;
+    border: 1px solid #888;
 }
 
-.warning {
-    border: 1px solid red !important
+.captcha-form .captcha-refresh {
+    width: 40px;
+    border: none;
+    outline: none;
+    background: #888;
+    color: #eee;
+    cursor: pointer;
 }
-.card.active .signup{
-    right:100% !important;
-    position:absolute;
+
+#login-btn {
+    margin-top: 12px;
+    padding: 10px;
+    border: none;
+    outline: none;
+    text-transform: uppercase;
+    background: #4c81ff;
+    color: #fff;
+    cursor: pointer;
+
 }

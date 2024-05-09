@@ -4,10 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View FIR Status</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/fir.css') }}">
 </head>
 <body>
-    <h1>View FIR Status</h1>
-    <p><b>Name: </b> {{user.username }}</p>
-    <div id="chat-log">{{ chat_log }}</div>
+{% block content%}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+    <h1>{% block title %}View FIR Status {% endblock %}</h1>
+    <div class="container">
+    <h1>FIRST INFORMATION REPORT</h1>
+    <h2>Registered on FIR Sahayak</h2>
+    <h3>(Under Section 154 of the Criminal Procedure Code)</h3>
+    {% for new_fir in allfir %}
+        <div class="form">
+            <ul class="table">
+                <li><b></b></li>
+                <li><b>Police Station:</b> {{new_fir.policeStation }}</li>
+                <li><b>District:</b> {{new_fir.district }}</li>
+                <li><b>Name:</b> {{new_fir.name }}</li>
+                <li><b>Email:</b> {{new_fir.email }}</li>
+                <li><b>Father's Name:</b> {{new_fir.fatherName }}</li>
+                <li><b>Address:</b> {{new_fir.address }}</li>
+                <li><b>Phone/Fax:</b> {{new_fir.phoneFax }}</li>
+                <li><b>Distance:</b> {{new_fir.distance}}</li>
+                <li><b>Direction:</b> {{new_fir.direction }}</li>
+                <li><b>Nature:</b> {{new_fir.nature }}</li>
+                <li><b>Section:</b> {{new_fir.section }}</li>
+                <li><b>Particulars:</b> {{new_fir.particulars }}</li>
+                <li><b>Description:</b> {{new_fir.description}}</li>
+                <li><b>Witnesses:</b> {{new_fir.witnesses }}</li>
+                <li><b>Complaint:</b> {{new_fir.complaint }}</li>
+            </ul>
+        </div>
+        <div class="divider"></div>
+    {% endfor %}
+    </div>
+    <div id="savePdfBtn">
+        <button onclick="window.print()">Save as PDF</button>
+    </div>
+{% endblock %}
 </body>
 </html>

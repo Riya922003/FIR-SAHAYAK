@@ -1,4 +1,5 @@
-from flask import Flask , request,render_template, redirect,session
+from datetime import datetime
+from flask import Flask , request,render_template, redirect,session, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 from flask_wtf import FlaskForm
@@ -6,6 +7,7 @@ from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import InputRequired, Length, ValidationError
 from flask_bcrypt import Bcrypt
 import bcrypt
+from flask import flash
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
@@ -38,15 +40,128 @@ class User(db.Model,UserMixin):
     def check_password(self,password):
         return bcrypt.checkpw(password.encode('utf-8'),self.password.encode('utf-8'))
 
+        
+with app.app_context():
+    db.create_all()
+
+
+
+
+
+class Fir(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    policeStation = db.Column(db.String(100), nullable=False)
+    district = db.Column(db.String(100), nullable=False)
+    name = db.Column(db.String(100), nullable=False)
+    fatherName = db.Column(db.String(100), nullable=False)
+    address = db.Column(db.String(200), nullable=False)
+    phoneFax = db.Column(db.String(20), nullable=False)
+    email = db.Column(db.String(100), nullable=False)
+    distance = db.Column(db.String(100), nullable=False)
+    direction = db.Column(db.String(100), nullable=False)
+    nature = db.Column(db.String(200), nullable=False)
+    section = db.Column(db.String(50), nullable=False)
+    particulars = db.Column(db.Text, nullable=False)
+    description = db.Column(db.Text, nullable=False)
+    witnesses= db.Column(db.Text)
+    complaint = db.Column(db.Text, nullable=False)
+
+    
+    def __init__(self,policeStation,district,name,fatherName,address,phoneFax,email, distance,direction,nature,section,particulars,description,witnesses,complaint):
+        self.policeStation= policeStation
+        self.district =district
+        self.name = name
+        self.fatherName = fatherName
+        self.address = address
+        self.phoneFax = phoneFax
+        self.email = email
+        self.distance = distance
+        self.direction = direction
+        self.nature = nature
+        self.section = section
+        self.particulars = particulars
+        self.description= description
+        self.witnesses = witnesses
+        self.complaint = complaint
+        
+        
+with app.app_context():
+    db.create_all()
+    
+    
+class Visitor_ip(db.Model):
+    __tablename__ = 'visitor_ip'  # Specify the table name explicitly if needed
+    id = db.Column(db.Integer, primary_key=True)
+    ip_address = db.Column(db.String(45), nullable=False)
+
+    def __repr__(self):
+        return f'<Visitor {self.ip_address}>'
+
+    
+    
 with app.app_context():
     db.create_all()
     
 
-@app.route('/')
-def home():
+    
+@app.route('/fir_form', methods=['GET', 'POST'])
+def fir_form():
     if request.method == 'POST':
-        return redirect('/sign_up')
-    return render_template('home.html')
+        # Extract data from the form
+        policeStation = request.form.get('policeStation')
+        district = request.form.get('district')
+        name = request.form.get('name')
+        fatherName = request.form.get('fatherName')
+        address = request.form.get('address')
+        phoneFax = request.form.get('phoneFax')
+        email = request.form.get('email')
+        distance = request.form.get('distance')
+        direction = request.form.get('direction')
+        nature = request.form.get('nature')
+        section = request.form.get('section')
+        particulars = request.form.get('particulars')
+        description = request.form.get('description')
+        witnesses = request.form.get('witnesses')
+        complaint = request.form.get('complaint')
+        print(name)
+        
+        new_fir = Fir(policeStation=policeStation,district=district,name=name,fatherName=fatherName,address=address,phoneFax=phoneFax,email=email, distance=distance,direction=direction,nature=nature,section=section,particulars=particulars,description=description,witnesses=witnesses,complaint=complaint)
+
+        db.session.add(new_fir)
+        db.session.commit()
+        flash("your post has been submitted successfully",'success')
+        return redirect('/index_bot')
+
+    return render_template('fir_form.html')
+
+
+# Route to view FIR status
+@app.route('/view_fir_status')
+def view_fir_status():
+    allfir = Fir.query.all()
+    return render_template('view_fir_status.html',allfir=allfir)
+
+
+
+@app.route('/sign_up' , methods=['GET','POST'])
+def sign_up():
+    if request.method == 'POST':
+        # handle request
+        Full_name = request.form['Full_name']
+        username = request.form['username']
+        email = request.form['email']
+        Number = request.form['Number']
+        Phone_number = request.form['Phone_number']
+        Adhar_card_number = request.form['Adhar_card_number']
+        password = request.form['password']
+        confirm_password = request.form['confirm_password']
+
+        new_user = User(Full_name=Full_name,username=username,email=email,Number=Number,Phone_number=Phone_number,Adhar_card_number=Adhar_card_number,password=password,confirm_password=confirm_password)
+        db.session.add(new_user)
+        db.session.commit()
+        return redirect('/login')
+        
+    return render_template('s.html')
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -72,36 +187,37 @@ def login():
 def bot():  
     return render_template('index_bot.html')
 
+
+
+@app.route('/')
+def home():
+    if request.method == 'POST':
+        return redirect('/sign_up')
+    return render_template('home.html')
+
+
+
+
  
 @app.route('/home_login',)
 def home_login():  
+    remote_ip = request.remote_addr
+    # Store the remote IP address in the database
+    visitor_ip = Visitor_ip(ip_address=remote_ip)
+    print(visitor_ip)
+    db.session.add(visitor_ip)
+    db.session.commit()
+    
     if 'email' in session:
         email = session['email']
         username = session['username']
         user = User.query.filter_by(email=email).first()
         return render_template('/home_login.html', user=user)
     
+    flash('YOU ARE NOT LOGGED IN', 'success')
+    return redirect('/')
+   
 
-    
-@app.route('/sign_up' , methods=['GET','POST'])
-def sign_up():
-    if request.method == 'POST':
-        # handle request
-        Full_name = request.form['Full_name']
-        username = request.form['username']
-        email = request.form['email']
-        Number = request.form['Number']
-        Phone_number = request.form['Phone_number']
-        Adhar_card_number = request.form['Adhar_card_number']
-        password = request.form['password']
-        confirm_password = request.form['confirm_password']
-
-        new_user = User(Full_name=Full_name,username=username,email=email,Number=Number,Phone_number=Phone_number,Adhar_card_number=Adhar_card_number,password=password,confirm_password=confirm_password)
-        db.session.add(new_user)
-        db.session.commit()
-        return redirect('/login')
-        
-    return render_template('s.html')
 
 
 @app.route('/dashboard')
@@ -110,31 +226,13 @@ def dashboard():
         email = session['email']
         username = session['username']
         user = User.query.filter_by(email=email).first()
-        return render_template('dashboard.html', user=user)
-    
-    
-@app.route('/view_fir_status')
-def view_fir_status():
-    try:
-        with open('chat.txt', 'r') as file:
-            chat_log = file.read()
-    except FileNotFoundError:
-        chat_log = 'Chat log not found'
-    
-    if 'email' in session:
-        email = session['email']
-        username = session['username']
-        user = User.query.filter_by(email=email).first()
-        return render_template('view_fir_status.html', user=user, chat_log=chat_log)
+        return render_template('dashboard.html',user=user)
 
-
-
-    
 
 @app.route('/logout')
 def logout():
     session.pop('email',None)
-    return redirect('/login')
+    return redirect('/')
 
 if __name__=='__main__':
    

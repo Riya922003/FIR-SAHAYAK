@@ -4,56 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FIR Registration Form</title>
-    <style>
-        /* Add your CSS styles here */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        fieldset {
-            border: 1px solid #000;
-            padding: 10px;
-            margin-bottom: 20px;
-        }
-        legend {
-            font-weight: bold;
-            display: inline-block;
-            width: 100%;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        input[type="text"],
-        input[type="date"] {
-            width: calc(100% - 12px);
-            padding: 5px;
-            box-sizing: border-box;
-            margin-bottom: 10px;
-        }
-        textarea {
-            width: calc(100% - 12px);
-            padding: 5px;
-            box-sizing: border-box;
-            margin-bottom: 10px;
-            height: 100px;
-        }
-        button {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/fir_form.css') }}">
 </head>
 <body>
-    <h1>First Information Report (FIR)</h1>
-    <p>(Under Section 154 of the Criminal Procedure Code)</p>
-    <form id="firForm">
+    <form action="/fir_form" method="POST">
+        <h1>First Information Report (FIR)</h1>
+        <p>(Under Section 154 of the Criminal Procedure Code)</p>
         <fieldset>
             <legend >Police Station - Bhopal  | District - Bhopal</legend>
             <label for="policeStation">Police Station:</label>
@@ -82,13 +38,6 @@
             <input type="text" id="direction" name="direction" required>
         </fieldset>
         <fieldset>
-            <legend>3. Date and Hour of Occurrence:</legend>
-            <label for="date">Date:</label>
-            <input type="date" id="date" name="date" required>
-            <label for="time">Hour:</label>
-            <input type="time" id="time" name="time" required>
-        </fieldset>
-        <fieldset>
             <legend>4. Offence:</legend>
             <label for="nature">Nature of the offence:</label>
             <input type="text" id="nature" name="nature" required>
@@ -109,14 +58,24 @@
             <legend>7. Complaint:</legend>
             <textarea id="complaint" name="complaint" required></textarea>
         </fieldset>
+       
+        <button id=" botButton">
+            <a href="http://localhost:3000">GO ON BOT</a></button>
+        </button>
+        
     </form>
-    <button onclick="printPage()">Print as PDF</button>
+    
+   
 
     <script>
-        function printPage() {
-            window.print();
-        }
-        // Add JavaScript to fill form fields dynamically
+        // JavaScript to handle button click event
+        document.getElementById("botButton").addEventListener("click", function() {
+            // Redirect to the bot interface page
+            window.location.href = "http://localhost:3000";
+
+        });
     </script>
+
+
 </body>
 </html>

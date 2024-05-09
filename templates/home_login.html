@@ -54,11 +54,11 @@
                 <a href="/view_fir_status">View FIR</a>
             </div>
         </div>
-        <button  id = "botButton">REGISTER FIR<svg fill="none" viewBox="0 0 20 20">
+        <button><svg fill="none" viewBox="0 0 20 20">
                 <path fill="#fff"
                     d="M2.5 14.375V17.5h3.125l9.217-9.217-3.125-3.125L2.5 14.375Zm14.758-8.508a.83.83 0 0 0 0-1.175l-1.95-1.95a.83.83 0 0 0-1.175 0l-1.525 1.525 3.125 3.125 1.525-1.525Z">
                 </path>
-            </svg></button>
+            </svg><a href="/fir_form">REGISTER FIR</a></button>
         <div id="nav-bottom">
 
         </div>
@@ -120,7 +120,7 @@
             </div>
         </div>
     <div id="page3">
-        <video src="fir-sahayak.mp4"></video>
+        <video src="{{ url_for('static', filename='fir-sahayak.mp4') }}"></video>
         <div class="page3-center">
             <div class="icon">
                 <i class="ri-play-fill"></i>
@@ -216,7 +216,7 @@
             window.location.href = "http://localhost:3000";
 
         });
-        </script>
+    </script>
    
 <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@3.5.4/dist/locomotive-scroll.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" 

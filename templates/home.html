@@ -12,6 +12,16 @@
 </head>
 
 <body>
+    {% block content%}
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div id="flash-message" class="alert alert-{{ category }} flash-message" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+    {% endwith %}
     <nav>
         <div class="logo-container">
             <!-- Your logo goes here -->
@@ -24,7 +34,7 @@
         <div class="nav-part2">
             <div class="nav-elem">
                 <h4>USER PROFILE</h4>
-                <h5><a href="/dashboard">Account</a></h5>
+                <h5><a href="/login">Account</a></h5>
             </div>
             <div class="nav-elem">
                 <h4>MISSING</h4>
@@ -70,14 +80,15 @@
             <div class="slide-container">
 
                 <div class="slides">
-                    <img src="https://i.ibb.co/yk24mdX/Untitled-design-5.png" class="active">
-                    <img src="https://i.ibb.co/h76PSpk/Welcome-to-our-online-FIR-registration-platform-where-justice-meets-convenience-With-the-backdrop-of.png">
-                    <img src="https://i.ibb.co/pw1nGjk/Welcome-to-our-online-FIR-registration-platform-where-justice-meets-convenience-With-the-backdrop-of.png">
+                    <img src="{{ url_for('static', filename='Untitled design-4.png') }}" class="active">
+                    <img src="{{ url_for('static', filename='Untitled design-5.png') }}">
+                    <img src="{{ url_for('static', filename='image.png') }}">
                     <img src="https://digitalpolice.gov.in/Content/images/banner.jpg">
-                    <img src="https://i.ibb.co/h76PSpk/Welcome-to-our-online-FIR-registration-platform-where-justice-meets-convenience-With-the-backdrop-of.png">
-                    <img src="https://i.ibb.co/pw1nGjk/Welcome-to-our-online-FIR-registration-platform-where-justice-meets-convenience-With-the-backdrop-of.png">
+                    <img src="{{ url_for('static', filename='Untitled design-4.png') }}">
+                    <img src="{{ url_for('static', filename='Untitled design-5.png') }}">
                     <img src="https://digitalpolice.gov.in/Content/images/banner.jpg">
                 </div>
+                
 
                 <div class="buttons">
                     <span class="next">&#10095;</span>
@@ -123,7 +134,7 @@
             </div>
         </div>
     <div id="page3">
-        <video src="fir-sahayak.mp4"></video>
+        <video src="{{ url_for('static', filename='fir-sahayak.mp4') }}"></video>
         <div class="page3-center">
             <div class="icon">
                 <i class="ri-play-fill"></i>
@@ -214,15 +225,28 @@
         </footer>
     </div>
     </div>
+{% endblock %}
+<script>
+    // JavaScript to handle button click event
+    document.getElementById("botButton").addEventListener("click", function() {
+        // Redirect to the bot interface page
+        window.location.href = "http://localhost:3000";
 
+    });
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <!-- JavaScript to hide flash message after 10 seconds -->
     <script>
-        // JavaScript to handle button click event
-        document.getElementById("botButton").addEventListener("click", function() {
-            // Redirect to the bot interface page
-            window.location.href = "http://localhost:3000";
-
+        $(document).ready(function() {
+            var flashMessage = $('#flash-message');
+            if (flashMessage.length > 0) {
+                setTimeout(function() {
+                    flashMessage.fadeOut('slow');
+                }, 10000); // 10 seconds
+            }
         });
-        </script>
+</script>
    
 <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@3.5.4/dist/locomotive-scroll.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" 

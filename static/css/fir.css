@@ -1,0 +1,79 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+.container {
+    width: 210mm;
+    height: 297mm;
+    background-color: #fff;
+    padding: 20mm;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+h3{
+font-size:1vw;
+font-weight:60;
+}
+
+h2{
+font-style: italic;
+font-size:2vw;
+font-weight:100;
+}
+
+h1{
+font-size:3vw;
+font-weight:bold;
+text-decoration: underline; /* Underline added */
+}
+
+h1, h2 ,h3{
+    text-align: center;
+}
+.table {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+.table li {
+    margin-bottom: 10px;
+}
+.table li b {
+    display: inline-block;
+    width: 150px;
+    font-weight: bold;
+}
+.divider {
+    border-bottom: 1px solid #000;
+    margin-bottom: 20px;
+}
+#savePdfBtn {
+    text-align: center;
+}
+#savePdfBtn button {
+    padding: 1vw;
+    margin:2vh;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 1.3vw;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background-color 0.3s;
+}
+#savePdfBtn button:hover {
+    background-color: #45a049;
+}
+
+#savePdfBtn button:active {
+    transform: scale(0.9); /* Scale down when button is active */
+}
+
+
+@media print {
+    #savePdfBtn {
+        display: none; /* Hide button when printing */
+    }
+}
