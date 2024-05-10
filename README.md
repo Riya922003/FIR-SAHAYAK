@@ -72,12 +72,12 @@
 <h3>FIR Bot:</h3>
 The FIR bot, powered by Gemeni and utilizing Google API key, intelligently interacts with users to gather relevant information regarding incidents for FIR registration. By asking the most relevant questions, the bot ensures accurate and comprehensive data collection for efficient processing.
 <br>
-<h3>How to Use:</h3>
-1. Ensure Python is installed on your system.
-2. Open command prompt and run `pip install -r requirements.txt` to install necessary dependencies.
-3. Run `app.py` in one terminal to start the Flask backend (it will run on a specified port).
-4. Run `server.js` in another terminal to start the frontend server (it will run on port 3000 by default).
-5. Access the web interface through your preferred browser and follow the prompts for FIR registration.
+<h3>How to Use:</h3><br>
+1. Ensure Python is installed on your system.<br>
+2. Open command prompt and run `pip install -r requirements.txt` to install necessary dependencies.<br>
+3. Run `app.py` in one terminal to start the Flask backend (it will run on a specified port).<br>
+4. Run `server.js` in another terminal to start the frontend server (it will run on port 3000 by default).<br>
+5. Access the web interface through your preferred browser and follow the prompts for FIR registration.<br>
 <br>
 <div align=center>
 <h3>Technologies Used:</h3>
