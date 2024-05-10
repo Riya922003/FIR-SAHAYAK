@@ -93,7 +93,7 @@ Contributions to improve the system are welcome! Please fork the repository, mak
 This project is licensed under the [MIT License](LICENSE).
 <br>
 <h3>Contact:</h3>
-For any inquiries or feedback, please contact us at riya98012@gmail.com.
+For any inquiries or feedback, please contact us at <a href="riya98012@gmail.com">here</a>
 <br>
 <h3>Acknowledgments:</h3>
 Special thanks to the team members <br>
