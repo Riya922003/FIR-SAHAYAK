@@ -96,7 +96,7 @@ This project is licensed under the [MIT License](LICENSE).
 For any inquiries or feedback, please contact us at riya98012@gmail.com.
 <br>
 <h3>Acknowledgments:</h3>
-Special thanks to the team members 
+Special thanks to the team members <br>
 <a src=""><b>Rohan Gautam</b></a><br>
 <a src=""><b>Garvit</b></a><br>
 <a src=""><b>Shashidhar</b></a><br>
