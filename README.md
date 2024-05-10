@@ -71,25 +71,33 @@
 
 <h3>FIR Bot:</h3>
 The FIR bot, powered by Gemeni and utilizing Google API key, intelligently interacts with users to gather relevant information regarding incidents for FIR registration. By asking the most relevant questions, the bot ensures accurate and comprehensive data collection for efficient processing.
-
+<br>
 <h3>How to Use:</h3>
 1. Ensure Python is installed on your system.
 2. Open command prompt and run `pip install -r requirements.txt` to install necessary dependencies.
 3. Run `app.py` in one terminal to start the Flask backend (it will run on a specified port).
 4. Run `server.js` in another terminal to start the frontend server (it will run on port 3000 by default).
 5. Access the web interface through your preferred browser and follow the prompts for FIR registration.
+<br>
 <div align=center>
 <h3>Technologies Used:</h3>
  <img src="https://skillicons.dev/icons?i=css,express,flask,nodejs,py,jquery," />
 </div>
+<br>
+<div align=center><h3>DEMO</h3></div>
+<a src=""> CLICK HERE </a>
 <h3>Contributing:</h3>
 Contributions to improve the system are welcome! Please fork the repository, make your changes, and submit a pull request for review.
-
+<br>
 <h3>License:</h3>
 This project is licensed under the [MIT License](LICENSE).
-
+<br>
 <h3>Contact:</h3>
-For any inquiries or feedback, please contact us at [email@example.com](mailto:email@example.com).
-
+For any inquiries or feedback, please contact us at riya98012@gmail.com.
+<br>
 <h3>Acknowledgments:</h3>
-Special thanks to the developers and contributors who have helped in the creation and improvement of FIR SAHAYAK.
+Special thanks to the team members 
+<a src=""><b>Rohan Gautam</b></a><br>
+<a src=""><b>Garvit</b></a><br>
+<a src=""><b>Shashidhar</b></a><br>
+<a src=""><b>Nitesha Gupta</b></a><br>
