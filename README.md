@@ -4,7 +4,7 @@
 <h2><b>Description:<b></h2>
  <p>FIR SAHAYAK is a comprehensive online FIR registration system aimed at streamlining the process of filing FIRs (First Information Reports) with seamless user interaction. The system provides a user-friendly web-based interface for registering FIRs, ensuring complete user authentication, session management, and IP address tracking for enhanced security. Additionally, the system incorporates a bot-driven interaction for effortless form filling and submission, along with features like PDF report download and FIR record correction.
 </p>
-<h3>Project-Details:</h3>
+<h3><b>Project-Details:</b></h3>
 <details open>
   <summary>&nbsp;<b>FIR Sahayak</b>&nbsp;</summary>
   <p>
@@ -84,8 +84,8 @@ The FIR bot, powered by Gemeni and utilizing Google API key, intelligently inter
  <img src="https://skillicons.dev/icons?i=css,express,flask,nodejs,py,jquery," />
 </div>
 <br>
-<div align=center><h3>DEMO</h3></div>
-<a src=""> CLICK HERE </a>
+<div align=center><h3>DEMO</h3><br><a src=""> CLICK HERE </a></div>
+
 <h3>Contributing:</h3>
 Contributions to improve the system are welcome! Please fork the repository, make your changes, and submit a pull request for review.
 <br>
@@ -97,7 +97,7 @@ For any inquiries or feedback, please contact us at riya98012@gmail.com.
 <br>
 <h3>Acknowledgments:</h3>
 Special thanks to the team members <br>
-<a src=""><b>Rohan Gautam</b></a><br>
-<a src=""><b>Garvit</b></a><br>
-<a src=""><b>Shashidhar</b></a><br>
-<a src=""><b>Nitesha Gupta</b></a><br>
+<a href="https://github.com/Rohan-Gautam"><b>Rohan Gautam</b></a><br>
+<a href="https://github.com/garvit-exe"><b>Garvit</b></a><br>
+<a href="https://github.com/shashidhar-kittur"><b>Shashidhar</b></a><br>
+<a href=""><b>Nitesha Gupta</b></a><br>
