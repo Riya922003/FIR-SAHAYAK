@@ -70,6 +70,7 @@
 
 
 <h3>FIR Bot:</h3>
+<p>ALL the coding for FIR-BOT setup is in master branch </p>
 The FIR bot, powered by Gemeni and utilizing Google API key, intelligently interacts with users to gather relevant information regarding incidents for FIR registration. By asking the most relevant questions, the bot ensures accurate and comprehensive data collection for efficient processing.
 <br>
 <h3>How to Use:</h3><br>
