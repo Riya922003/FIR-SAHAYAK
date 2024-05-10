@@ -8,7 +8,7 @@
 <details open>
   <summary>&nbsp;<b>FIR Sahayak</b>&nbsp;</summary>
   <p>
-    <table>
+    <table  style="background-color: lightblue; border-collapse: collapse;">
       <td>
          Web-Based Interface
         </td>
@@ -78,12 +78,10 @@ The FIR bot, powered by Gemeni and utilizing Google API key, intelligently inter
 3. Run `app.py` in one terminal to start the Flask backend (it will run on a specified port).
 4. Run `server.js` in another terminal to start the frontend server (it will run on port 3000 by default).
 5. Access the web interface through your preferred browser and follow the prompts for FIR registration.
-
+<div align=center>
 <h3>Technologies Used:</h3>
-- **Frontend:** HTML, CSS, JavaScript
-- **Backend:** Flask (Python)
-- **Bot Framework:** Gemeni, Google API
-
+ <img src="https://skillicons.dev/icons?i=css,express,flask,nodejs,py,jquery," />
+</div>
 <h3>Contributing:</h3>
 Contributions to improve the system are welcome! Please fork the repository, make your changes, and submit a pull request for review.
 
