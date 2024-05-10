@@ -1,5 +1,5 @@
 
-<h2><b>Project Name:<b><h2> FIR SAHAYAK - Online FIR Registration Model
+<h2><b>Project Name:<b></h2> FIR SAHAYAK - Online FIR Registration Model
 
 <h2><b>Description:<b></h2>
  <p>FIR SAHAYAK is a comprehensive online FIR registration system aimed at streamlining the process of filing FIRs (First Information Reports) with seamless user interaction. The system provides a user-friendly web-based interface for registering FIRs, ensuring complete user authentication, session management, and IP address tracking for enhanced security. Additionally, the system incorporates a bot-driven interaction for effortless form filling and submission, along with features like PDF report download and FIR record correction.
