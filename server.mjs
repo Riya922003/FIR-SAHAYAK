@@ -9,7 +9,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 app.use(express.json());
 const MODEL_NAME = "gemini-pro";
-const API_KEY = process.env.AIzaSyD9DsoLYpqQ_kw5OFIbL3fB2vXHFq3uA2c;
+const API_KEY = process.env.'YOUR API KEY'
 
 const fs = require('fs');
 
@@ -24,7 +24,7 @@ function logChat(userInput, response) {
 }
 
 async function runChat(userInput) {
-  const genAI = new GoogleGenerativeAI('AIzaSyD9DsoLYpqQ_kw5OFIbL3fB2vXHFq3uA2c');
+  const genAI = new GoogleGenerativeAI('YOUR API KEY');
   const model = genAI.getGenerativeModel({ model: MODEL_NAME });
 
   const generationConfig = {
