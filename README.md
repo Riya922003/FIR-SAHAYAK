@@ -1,104 +1,51 @@
+# FIR Assistant - Simplified Online FIR Filing
 
-<h2><b>Project Name:<b></h2> FIR SAHAYAK - Online FIR Registration Model
+FIR Assistant streamlines the process of filing First Information Reports (FIRs) through an intuitive online platform. It provides a user-friendly web interface for FIR registration, ensuring security, accuracy, and ease of use.
 
-<h2><b>Description:<b></h2>
- <p>FIR SAHAYAK is a comprehensive online FIR registration system aimed at streamlining the process of filing FIRs (First Information Reports) with seamless user interaction. The system provides a user-friendly web-based interface for registering FIRs, ensuring complete user authentication, session management, and IP address tracking for enhanced security. Additionally, the system incorporates a bot-driven interaction for effortless form filling and submission, along with features like PDF report download and FIR record correction.
-</p>
-<h3><b>Project-Details:</b></h3>
-<details open>
-  <summary>&nbsp;<b>FIR Sahayak</b>&nbsp;</summary>
-  <p>
-    <table  style="background-color: lightblue; border-collapse: collapse;">
-      <td>
-         Web-Based Interface
-        </td>
-        <td>
-          Responsive website offering easy access to FIR registration from any device
-        </td>
-      </tr>
-      <tr>
-        <td>
-        User Authentication
-        </td>
-        <td>
-           <p>Complete user authentication system ensuring secure access to the platform.</p>
-        </td>
-      </tr>
-      <tr>
-        <td>
-         .Session Management:
-        </td>
-        <td>
-         Seamless session management for uninterrupted user interaction
-        </td>
-      </tr>
-     <tr>
-        <td>
-         IP Address Tracking:
-        </td>
-        <td>
-         Tracking of IP addresses for added security and accountability
-        </td>
-      </tr>
-     <tr>
-        <td>
-         Bot Interaction:
-        </td>
-        <td>
-         Bot-driven interaction for guided form filling, ensuring accurate submission.
-        </td>
-      </tr>
-      <tr>
-        <td>
-         PDF Report Download:
-        </td>
-        <td>
-         Facility to download submitted FIR reports in PDF format for documentation
-        </td>
-      </tr>
-        <tr>
-        <td>
-         FIR Record Correction:
-        </td>
-        <td>
-          Option for users to request corrections in previously registered FIRs
-        </td>
-      </tr>
-    </table>
-  </p>
-</details>
+## Features
 
+- **Web Interface:** Accessible from any device, the website offers a simple interface for FIR registration.
+  
+- **User Authentication:** Secure access to the platform through user authentication.
+  
+- **Session Management:** Seamless session handling for uninterrupted user interaction.
+  
+- **IP Address Tracking:** Enhances security and accountability by tracking IP addresses.
+  
+- **Bot Interaction:** Guided form filling through an intelligent bot, ensuring accurate submissions.
+  
+- **PDF Report Download:** Facility to download submitted FIR reports in PDF format for documentation.
+  
+- **FIR Record Correction:** Users can request corrections in previously registered FIRs if needed.
 
-<h3>FIR Bot:</h3>
-<p>ALL the coding for FIR-BOT setup is in master branch </p>
-The FIR bot, powered by Gemeni and utilizing Google API key, intelligently interacts with users to gather relevant information regarding incidents for FIR registration. By asking the most relevant questions, the bot ensures accurate and comprehensive data collection for efficient processing.
-<br>
-<h3>How to Use:</h3><br>
-1. Ensure Python is installed on your system.<br>
-2. Open command prompt and run `pip install -r requirements.txt` to install necessary dependencies.<br>
-3. Run `app.py` in one terminal to start the Flask backend (it will run on a specified port).<br>
-4. Run `server.js` in another terminal to start the frontend server (it will run on port 3000 by default).<br>
-5. Access the web interface through your preferred browser and follow the prompts for FIR registration.<br>
-<br>
-<div align=center>
-<h3>Technologies Used:</h3>
- <img src="https://skillicons.dev/icons?i=css,express,flask,nodejs,py,jquery," />
-</div>
-<br>
-<div align=center><h3>DEMO</h3><br><a src=""> CLICK HERE </a></div>
+## Usage
 
-<h3>Contributing:</h3>
-Contributions to improve the system are welcome! Please fork the repository, make your changes, and submit a pull request for review.
-<br>
-<h3>License:</h3>
+1. Ensure Python is installed on your system.
+2. Install necessary dependencies by running `pip install -r requirements.txt` in the command prompt.
+3. Start the Flask backend by running `app.py` in one terminal.
+4. Start the frontend server by running `server.js` in another terminal.
+5. Access the web interface through your browser and follow the prompts for FIR registration.
+
+## Technologies Used
+
+<img src="https://skillicons.dev/icons?i=css,express,flask,nodejs,py,jquery," />
+
+## Contributing
+
+Contributions to improve the system are welcome! Fork the repository, create a branch, make your changes, and submit a pull request for review.
+
+## License
+
 This project is licensed under the [MIT License](LICENSE).
-<br>
-<h3>Contact:</h3>
-For any inquiries or feedback, please contact us at <a href="riya98012@gmail.com">here</a>
-<br>
-<h3>Acknowledgments:</h3>
-Special thanks to the team members <br>
-<a href="https://github.com/Rohan-Gautam"><b>Rohan Gautam</b></a><br>
-<a href="https://github.com/garvit-exe"><b>Garvit</b></a><br>
-<a href="https://github.com/shashidhar-kittur"><b>Shashidhar</b></a><br>
-<a href=""><b>Nitesha Gupta</b></a><br>
+
+## Contact
+
+For inquiries or feedback, contact us at [riya98012@gmail.com](mailto:riya98012@gmail.com).
+
+## Acknowledgments
+
+Special thanks to team members:
+- [Rohan Gautam](https://github.com/Rohan-Gautam)
+- [Garvit](https://github.com/garvit-exe)
+- [Shashidhar](https://github.com/shashidhar-kittur)
+- [Nitisha Gupta](https://github.com/Nitisha-Gupta)
