@@ -8,6 +8,9 @@ from wtforms.validators import InputRequired, Length, ValidationError
 from flask_bcrypt import Bcrypt
 import bcrypt
 from flask import flash
+import google.generativeai as genai
+from flask import jsonify
+import os
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
@@ -234,6 +237,64 @@ def logout():
     session.pop('email',None)
     return redirect('/')
 
+
+
+def setup_gemini():
+    genai.configure(api_key='AIzaSyD3vOAaSOccsKsSsKPQkMp7JoMA4v-js7g')
+    model = genai.GenerativeModel('gemini-pro')
+    return model
+
+# Add this chat history
+CHAT_HISTORY = [
+    {"role": "user", "parts": ["""You are FIR-SAHAYAK, a helpful and empathetic FIR registration chatbot. Follow these rules:
+    1. Always start with a warm greeting and introduce yourself
+    2. Ask only ONE question at a time about the incident
+    3. Wait for the user's response before asking the next question
+    4. Show empathy and understanding in your responses
+    5. Focus on gathering essential details systematically
+    6. If the incident seems serious, recommend immediate police contact
+    Base your next question on the user's previous response to maintain a natural conversation flow."""]},
+    {"role": "model", "parts": ["""Welcome to FIR-SAHAYAK! I'm here to help you register your complaint and guide you through the process. I understand that reporting an incident can be stressful, and I'm here to make it as smooth as possible.
+
+Could you please start by telling me what incident you'd like to report?"""]},
+]
+
+# Add these new routes to your app.py
+@app.route('/chatbot')
+def chatbot():
+    return render_template('chatbot.html')
+
+@app.route('/chat', methods=['POST'])
+def chat():
+    try:
+        user_input = request.json.get('userInput')
+        if not user_input:
+            return jsonify({'error': 'Invalid request body'}), 400
+
+        model = setup_gemini()
+        chat = model.start_chat(history=CHAT_HISTORY)
+        response = chat.send_message(user_input)
+        
+        # Log the chat
+        log_chat(user_input, response.text)
+        
+        return jsonify({'response': response.text})
+    except Exception as e:
+        print('Error in chat endpoint:', str(e))
+        return jsonify({'error': 'Internal Server Error'}), 500
+
+def log_chat(user_input, response):
+    log_entry = f"{datetime.now().isoformat()}: User: {user_input}, Bot: {response}\n"
+    with open('chat.txt', 'a') as f:
+        f.write(log_entry)
+        
+        
+        
+
 if __name__=='__main__':
    
     app.run(debug=True)
+    
+    
+    
+
