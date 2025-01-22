@@ -4,78 +4,270 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FIR Registration Form</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/fir_form.css') }}">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-header h1 {
+            color: #1a73e8;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .form-header p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .form-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .form-section h2 {
+            color: #2c3e50;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #4a5568;
+            font-weight: 500;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #1a73e8;
+            box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        #chatbotButton {
+            display: block;
+            width: 200px;
+            margin: 30px auto 0;
+            padding: 12px 24px;
+            background-color: #1a73e8;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        #chatbotButton:hover {
+            background-color: #1557b0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            .form-row {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .form-group {
+                min-width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
-    <form action="/fir_form" method="POST">
-        <h1>First Information Report (FIR)</h1>
-        <p>(Under Section 154 of the Criminal Procedure Code)</p>
-        <fieldset>
-            <legend >Police Station - Bhopal  | District - Bhopal</legend>
-            <label for="policeStation">Police Station:</label>
-            <input type="text" id="policeStation" name="policeStation" required>
-            <label for="district">District:</label>
-            <input type="text" id="district" name="district" required>
-        </fieldset>
-        <fieldset>
-            <legend>1. Personal details of the Complainant / Informant:</legend>
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required>
-            <label for="fatherName">Father's / Husband's Name:</label>
-            <input type="text" id="fatherName" name="fatherName" required>
-            <label for="address">Address:</label>
-            <input type="text" id="address" name="address" required>
-            <label for="phoneFax">Phone number & Fax:</label>
-            <input type="text" id="phoneFax" name="phoneFax" required>
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-        </fieldset>
-        <fieldset>
-            <legend>2. Place of Occurrence:</legend>
-            <label for="distance">Distance from the police station:</label>
-            <input type="text" id="distance" name="distance" required>
-            <label for="direction">Direction from the police station:</label>
-            <input type="text" id="direction" name="direction" required>
-        </fieldset>
-        <fieldset>
-            <legend>4. Offence:</legend>
-            <label for="nature">Nature of the offence:</label>
-            <input type="text" id="nature" name="nature" required>
-            <label for="section">Section:</label>
-            <input type="text" id="section" name="section" required>
-            <label for="particulars">Particulars of the property:</label>
-            <textarea id="particulars" name="particulars" required></textarea>
-        </fieldset>
-        <fieldset>
-            <legend>5. Description of the accused:</legend>
-            <textarea id="description" name="description" required></textarea>
-        </fieldset>
-        <fieldset>
-            <legend>6. Details of witnesses (if any):</legend>
-            <textarea id="witnesses" name="witnesses"></textarea>
-        </fieldset>
-        <fieldset>
-            <legend>7. Complaint:</legend>
-            <textarea id="complaint" name="complaint" required></textarea>
-        </fieldset>
-       
-        <button id=" botButton">
-            <a href="http://localhost:3000">GO ON BOT</a></button>
-        </button>
-        
-    </form>
-    
-   
+    <div class="container">
+        <div class="form-header">
+            <h1>First Information Report (FIR)</h1>
+            <p>Under Section 154 of the Criminal Procedure Code</p>
+        </div>
+
+        <form id="firForm">
+            <div class="form-section">
+                <h2>Station Details</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="policeStation">Police Station</label>
+                        <select id="policeStation" name="policeStation" required>
+                            <option value="">Select Police Station</option>
+                            <option value="mp_nagar">MP Nagar</option>
+                            <option value="habibganj">Habibganj</option>
+                            <option value="koh_e_fiza">Koh-e-Fiza</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="district">District</label>
+                        <input type="text" id="district" name="district" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>Personal Details</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="fatherName">Father's / Husband's Name</label>
+                        <input type="text" id="fatherName" name="fatherName" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phoneFax">Phone Number</label>
+                        <input type="tel" id="phoneFax" name="phoneFax" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <textarea id="address" name="address" required></textarea>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>Incident Details</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="distance">Distance from Police Station</label>
+                        <input type="text" id="distance" name="distance" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="direction">Direction from Police Station</label>
+                        <select id="direction" name="direction" required>
+                            <option value="">Select Direction</option>
+                            <option value="north">North</option>
+                            <option value="south">South</option>
+                            <option value="east">East</option>
+                            <option value="west">West</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="nature">Nature of Offence</label>
+                        <select id="nature" name="nature" required>
+                            <option value="">Select Offence Type</option>
+                            <option value="theft">Theft</option>
+                            <option value="assault">Assault</option>
+                            <option value="fraud">Fraud</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="section">Section</label>
+                        <input type="text" id="section" name="section" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>Additional Details</h2>
+                <div class="form-group">
+                    <label for="particulars">Particulars of Property</label>
+                    <textarea id="particulars" name="particulars" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description of Accused</label>
+                    <textarea id="description" name="description" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="witnesses">Witnesses Details</label>
+                    <textarea id="witnesses" name="witnesses"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="complaint">Complaint Details</label>
+                    <textarea id="complaint" name="complaint" required></textarea>
+                </div>
+            </div>
+
+            <a href="/chatbot" id="chatbotButton">GO TO CHATBOT</a>
+        </form>
+    </div>
 
     <script>
-        // JavaScript to handle button click event
-        document.getElementById("botButton").addEventListener("click", function() {
-            // Redirect to the bot interface page
-            window.location.href = "http://localhost:3000";
+        document.getElementById('chatbotButton').addEventListener('click', function(e) {
+            // Prevent the default link behavior
+            e.preventDefault();
+            
+            // Redirect to the chatbot page
+            window.location.href = "{{ url_for('chatbot') }}";
+        });
 
+        // Optional: Add form data to session storage before redirecting
+        document.getElementById('firForm').addEventListener('change', function(e) {
+            const formData = new FormData(this);
+            const formObject = {};
+            formData.forEach((value, key) => {
+                formObject[key] = value;
+            });
+            sessionStorage.setItem('firFormData', JSON.stringify(formObject));
         });
     </script>
-
-
 </body>
 </html>
