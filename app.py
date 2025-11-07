@@ -11,6 +11,7 @@ import google.generativeai as genai
 from flask import jsonify
 import os
 from dotenv import load_dotenv
+import threading
 
 
 # load environment variables from .env (if present)
@@ -116,6 +117,18 @@ class Visitor_ip(db.Model):
 
     def __repr__(self):
         return f'<Visitor {self.ip_address}>'
+
+
+class ChatLog(db.Model):
+    __tablename__ = 'chat_log'
+    id = db.Column(db.Integer, primary_key=True)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+    user_input = db.Column(db.Text, nullable=False)
+    bot_response = db.Column(db.Text, nullable=False)
+
+    def __init__(self, user_input, bot_response):
+        self.user_input = user_input
+        self.bot_response = bot_response
 
     
     
@@ -332,10 +345,34 @@ def chat():
         print('Error in chat endpoint:', str(e))
         return jsonify({'error': 'Internal Server Error'}), 500
 
+def _save_chat_to_db(user_input, response):
+    """Worker that runs inside an application context and writes the ChatLog record."""
+    try:
+        with app.app_context():
+            new_log = ChatLog(user_input=user_input, bot_response=response)
+            db.session.add(new_log)
+            db.session.commit()
+    except Exception as e:
+        # Ensure we rollback on error and print to logs for debugging
+        try:
+            db.session.rollback()
+        except Exception:
+            pass
+        print(f"Error logging chat to database: {str(e)}")
+
+
 def log_chat(user_input, response):
-    log_entry = f"{datetime.now().isoformat()}: User: {user_input}, Bot: {response}\n"
-    with open('chat.txt', 'a') as f:
-        f.write(log_entry)
+    """Start a background thread to save the chat log so the request isn't blocked.
+
+    This function returns immediately after scheduling the write. Any DB errors
+    are handled inside the worker and won't crash the request handler.
+    """
+    try:
+        t = threading.Thread(target=_save_chat_to_db, args=(user_input, response), daemon=True)
+        t.start()
+    except Exception as e:
+        # If the thread couldn't be started, print error but don't raise
+        print(f"Failed to start background thread for chat logging: {str(e)}")
         
         
         
