@@ -2,50 +2,54 @@ from datetime import datetime
 from flask import Flask , request,render_template, redirect,session, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
-from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
-from wtforms.validators import InputRequired, Length, ValidationError
-from flask_bcrypt import Bcrypt
+
+    
 import bcrypt
 from flask import flash
 import google.generativeai as genai
 from flask import jsonify
 import os
+from dotenv import load_dotenv
+
+
+# load environment variables from .env (if present)
+load_dotenv()
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 db = SQLAlchemy(app)
-app.secret_key = 'secret_key'
+# Use an environment variable for secret key in production
+app.secret_key = os.getenv('FLASK_SECRET_KEY', 'change_me_in_production')
 
 
 class User(db.Model,UserMixin):
     id=db.Column(db.Integer,primary_key=True)
     username=db.Column(db.String(20),nullable=False)
     email = db.Column(db.String(30), unique=True)
-    confirm_password=db.Column(db.String(10),nullable=False,unique=True)
-    password=db.Column(db.String(10),nullable=False,unique=True)
+    # store only the hashed password (not unique, allow same password for multiple users)
+    password=db.Column(db.String(128),nullable=False)
     Full_name=db.Column(db.String(30),nullable=False)
     Number=db.Column(db.Integer,nullable=False)
     Phone_number=db.Column(db.Integer,nullable=False)
     Adhar_card_number=db.Column(db.Integer,nullable=False,unique=True)
     
     
-    def __init__(self,email,password,username,Full_name,Number,Phone_number,Adhar_card_number,confirm_password):
+    def __init__(self, username, email, password, Full_name, Number, Phone_number, Adhar_card_number):
+        # assign provided values (do not access request inside model)
         self.username = username
         self.email = email
-        self.password = bcrypt.hashpw(password.encode('utf-8'),bcrypt.gensalt()).decode('utf-8')
-        self.Full_name = request.form['Full_name']
+        # hash the password before saving
+        self.password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+        self.Full_name = Full_name
         self.Number = Number
         self.Phone_number = Phone_number
         self.Adhar_card_number = Adhar_card_number
-        self.confirm_password = confirm_password
     
     def check_password(self,password):
-        return bcrypt.checkpw(password.encode('utf-8'),self.password.encode('utf-8'))
+        return bcrypt.checkpw(password.encode('utf-8'), self.password.encode('utf-8'))
 
         
-with app.app_context():
-    db.create_all()
+
 
 
 
@@ -88,9 +92,6 @@ class Fir(db.Model):
         self.complaint = complaint
         
         
-with app.app_context():
-    db.create_all()
-    
     
 class Visitor_ip(db.Model):
     __tablename__ = 'visitor_ip'  # Specify the table name explicitly if needed
@@ -102,9 +103,7 @@ class Visitor_ip(db.Model):
 
     
     
-with app.app_context():
-    db.create_all()
-    
+
 
     
 @app.route('/fir_form', methods=['GET', 'POST'])
@@ -132,8 +131,8 @@ def fir_form():
 
         db.session.add(new_fir)
         db.session.commit()
-        flash("your post has been submitted successfully",'success')
-        return redirect('/index_bot')
+        flash("your post has been submitted successfully", 'success')
+        return redirect(url_for('bot'))
 
     return render_template('fir_form.html')
 
@@ -150,19 +149,28 @@ def view_fir_status():
 def sign_up():
     if request.method == 'POST':
         # handle request
-        Full_name = request.form['Full_name']
-        username = request.form['username']
-        email = request.form['email']
-        Number = request.form['Number']
-        Phone_number = request.form['Phone_number']
-        Adhar_card_number = request.form['Adhar_card_number']
-        password = request.form['password']
-        confirm_password = request.form['confirm_password']
+        Full_name = request.form.get('Full_name')
+        username = request.form.get('username')
+        email = request.form.get('email')
+        Number = request.form.get('Number')
+        Phone_number = request.form.get('Phone_number')
+        Adhar_card_number = request.form.get('Adhar_card_number')
+        password = request.form.get('password')
+        confirm_password = request.form.get('confirm_password')
 
-        new_user = User(Full_name=Full_name,username=username,email=email,Number=Number,Phone_number=Phone_number,Adhar_card_number=Adhar_card_number,password=password,confirm_password=confirm_password)
+        # basic validation
+        if not (username and email and password and confirm_password):
+            flash('Please fill in all required fields', 'error')
+            return render_template('s.html')
+
+        if password != confirm_password:
+            flash('Passwords do not match', 'error')
+            return render_template('s.html')
+
+        new_user = User(username=username, email=email, password=password, Full_name=Full_name, Number=Number, Phone_number=Phone_number, Adhar_card_number=Adhar_card_number)
         db.session.add(new_user)
         db.session.commit()
-        return redirect('/login')
+        return redirect(url_for('login'))
         
     return render_template('s.html')
 
@@ -179,7 +187,7 @@ def login():
         if user and user.check_password(password):
             session['email'] = user.email
             session['username'] = user.username  # Save username in session
-            return redirect('/home_login')
+            return redirect(url_for('home_login'))
         else:
             return render_template('login.html',  error='Invalid credentials')
 
@@ -192,10 +200,10 @@ def bot():
 
 
 
-@app.route('/')
+@app.route('/', methods=['GET','POST'])
 def home():
     if request.method == 'POST':
-        return redirect('/sign_up')
+        return redirect(url_for('sign_up'))
     return render_template('home.html')
 
 
@@ -203,22 +211,24 @@ def home():
 
  
 @app.route('/home_login',)
-def home_login():  
-    remote_ip = request.remote_addr
-    # Store the remote IP address in the database
-    visitor_ip = Visitor_ip(ip_address=remote_ip)
-    print(visitor_ip)
-    db.session.add(visitor_ip)
-    db.session.commit()
-    
+def home_login():
+    # capture IP (respect X-Forwarded-For if behind a proxy)
+    xff = request.headers.get('X-Forwarded-For', None)
+    remote_ip = (xff.split(',')[0].strip() if xff else request.remote_addr)
+    try:
+        visitor_ip = Visitor_ip(ip_address=remote_ip)
+        db.session.add(visitor_ip)
+        db.session.commit()
+    except Exception:
+        db.session.rollback()
+
     if 'email' in session:
         email = session['email']
-        username = session['username']
         user = User.query.filter_by(email=email).first()
-        return render_template('/home_login.html', user=user)
-    
-    flash('YOU ARE NOT LOGGED IN', 'success')
-    return redirect('/')
+        return render_template('home_login.html', user=user)
+
+    flash('YOU ARE NOT LOGGED IN', 'error')
+    return redirect(url_for('home'))
    
 
 
@@ -227,20 +237,27 @@ def home_login():
 def dashboard():
     if 'email' in session:
         email = session['email']
-        username = session['username']
         user = User.query.filter_by(email=email).first()
-        return render_template('dashboard.html',user=user)
+        return render_template('dashboard.html', user=user)
+    return redirect(url_for('home'))
 
 
 @app.route('/logout')
 def logout():
-    session.pop('email',None)
-    return redirect('/')
+    session.pop('email', None)
+    session.pop('username', None)
+    return redirect(url_for('home'))
 
 
 
 def setup_gemini():
-    genai.configure(api_key='AIzaSyD3vOAaSOccsKsSsKPQkMp7JoMA4v-js7g')
+    # Read API key from environment (set GOOGLE_API_KEY in .env or the environment)
+    api_key = os.getenv('GOOGLE_API_KEY')
+    if not api_key:
+        # Fail fast so developer knows to set the key
+        raise RuntimeError('GOOGLE_API_KEY not set. Add it to a .env file or export it to the environment.')
+
+    genai.configure(api_key=api_key)
     model = genai.GenerativeModel('gemini-pro')
     return model
 
@@ -291,9 +308,12 @@ def log_chat(user_input, response):
         
         
 
-if __name__=='__main__':
-   
-    app.run(debug=True)
+with app.app_context():
+    # create DB tables if they don't exist (safe on startup)
+    db.create_all()
+
+if __name__ == '__main__':
+    app.run(debug=False)
     
     
     
