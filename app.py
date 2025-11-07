@@ -17,7 +17,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+# Read the database URL from the environment (e.g. DATABASE_URL)
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
 db = SQLAlchemy(app)
 # Use an environment variable for secret key in production
 app.secret_key = os.getenv('FLASK_SECRET_KEY', 'change_me_in_production')
