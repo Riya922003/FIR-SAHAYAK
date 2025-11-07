@@ -12,60 +12,33 @@
                 <h3 style="text-align: center;">Login Page</h3>
                 <form action="/login" method="POST">
                     <div class="form-group">
-                        <label for="username">Username</label>
-                        <input type="text" name="username" class="form-control">
+                        <label for="email">Email</label>
+                        <input type="email" name="email" class="form-control" required>
                     </div>
                     <div class="form-group">
-                        <label for="email">Email:</label>
-                        <input type="text" name="email" class="form-control">
+                        <label for="pwd">Password</label>
+                        <input type="password" name="password" class="form-control" required>
                     </div>
-                    <div class="form-group">
-                        <label for="pwd">Password:</label>
-                        <input type="password" name="password" class="form-control">
-                    </div>
-
-                    <label>Enter Captcha:</label>
-                    <div class="preview">
-                        <span id="captcha-preview"></span>
-                    </div>
-                    <div class="captcha-form">
-                        <input type="text" id="captcha-input" placeholder="Enter captcha text" style="width: 100%;">
-                        <button class="captcha-refresh" onclick="cap()">
-                            <i class="fa fa-refresh"></i>
-                        </button>
-                    </div>
+                    <div style="margin-top:10px;" class="g-recaptcha" data-sitekey="{{ recaptcha_site_key }}"></div>
 
                     <div class="form-input">
-                        <button id="login-btn">Login</button>
+                        <button type="submit" id="login-btn">Login</button>
                     </div>
                 </form>
-                <h6>Captcha not visible <img src="refresh.jpg" width="40px" onclick="cap()"></h6>
+                <!-- Captcha removed from login page; keep registration separate or use server-side captcha if needed -->
                 <p>New Here?<a href="/sign_up">Sign Up</a> </p>
                 <p>Forgotten Password?<a href="">Recover here</a> </p>
             </div>
         </div>
     </div>
     <script>
-        function cap() {
-            var alpha = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '!', '@', '#', '$', '%', '^', '&', '*', '+'];
-            var captchaValue = "";
-            for (var i = 0; i < 6; i++) {
-                captchaValue += alpha[Math.floor(Math.random() * alpha.length)];
-            }
-            document.getElementById("captcha-preview").textContent = captchaValue;
-        }
-
-        document.getElementById("login-btn").addEventListener("click", function () {
-            var inputCaptchaValue = document.getElementById("captcha-input").value;
-            var captchaPreviewValue = document.getElementById("captcha-preview").textContent;
-            if (inputCaptchaValue === captchaPreviewValue) {
-                alert("Login successful");
-            } else {
-                alert("Invalid captcha");
-            }
-        });
-
-        cap();
+        (function(){
+            var rc = document.createElement('script');
+            rc.src = 'https://www.google.com/recaptcha/api.js';
+            rc.async = true; rc.defer = true;
+            document.head.appendChild(rc);
+        })();
+    // Captcha handled by Google reCAPTCHA (see server-side verification)
     </script>
 </body>
 </html>

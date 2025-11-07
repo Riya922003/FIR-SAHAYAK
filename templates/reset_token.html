@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Reset Password</title>
+    <link rel="stylesheet" href="/static/css/fir_form.css">
+    <style>
+      .container { max-width: 480px; margin: 3rem auto; padding: 1.5rem; border: 1px solid #e1e1e1; border-radius: 6px; }
+      label { display:block; margin-bottom:0.25rem }
+      input[type=password]{ width:100%; padding:0.5rem; margin-bottom:1rem }
+      .btn { padding:0.5rem 1rem; background:#007bff; color:#fff; border:none; border-radius:4px }
+      .flash { padding:0.75rem; margin-bottom:1rem; border-radius:4px }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Reset your password</h2>
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="flash" style="background: {% if category=='danger' or category=='error' %}#ffe6e6{% elif category=='warning' %}#fff4e5{% else %}#e6ffef{% endif %};">
+              {{ message }}
+            </div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+      <form method="post">
+        <label for="password">New password</label>
+        <input id="password" name="password" type="password" required minlength="6" />
+
+        <label for="confirm_password">Confirm new password</label>
+        <input id="confirm_password" name="confirm_password" type="password" required minlength="6" />
+
+        <button type="submit" class="btn">Reset Password</button>
+      </form>
+
+      <p style="margin-top:1rem"><a href="{{ url_for('login') }}">Back to login</a></p>
+    </div>
+  </body>
+</html>

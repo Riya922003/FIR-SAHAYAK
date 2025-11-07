@@ -1,8 +1,8 @@
 from datetime import datetime
-from flask import Flask , request,render_template, redirect,session, url_for
+from flask import Flask , request,render_template, redirect,session, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
-from sqlalchemy.exc import IntegrityError
+from sqlalchemy.exc import IntegrityError, OperationalError
 
     
 import bcrypt
@@ -10,6 +10,11 @@ from flask import flash
 import google.generativeai as genai
 from flask import jsonify
 import os
+from flask_mail import Mail, Message
+from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadTimeSignature
+import urllib.request
+import urllib.parse
+import json
 from dotenv import load_dotenv
 import threading
 
@@ -17,12 +22,33 @@ import threading
 # load environment variables from .env (if present)
 load_dotenv()
 
+# Read recaptcha keys (support old names for backward compatibility)
+RECAPTCHA_SITE_KEY = os.getenv('RECAPTCHA_SITE_KEY') or os.getenv('SITE_KEY')
+RECAPTCHA_SECRET = os.getenv('RECAPTCHA_SECRET') or os.getenv('SECRET_KEY')
+
 app = Flask(__name__)
 # Read the database URL from the environment (e.g. DATABASE_URL)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+# Prevent errors when the DB connection in the pool becomes invalid (network/SSL hiccups)
+# This enables SQLAlchemy's pool_pre_ping which checks connections before use.
+app.config['SQLALCHEMY_ENGINE_OPTIONS'] = { 'pool_pre_ping': True }
 db = SQLAlchemy(app)
 # Use an environment variable for secret key in production
-app.secret_key = os.getenv('FLASK_SECRET_KEY', 'change_me_in_production')
+# Prefer SECRET_KEY, fall back to FLASK_SECRET_KEY for compatibility
+app.secret_key = os.environ.get('SECRET_KEY', os.getenv('FLASK_SECRET_KEY', 'change_me_in_production'))
+
+# --- Mail Configuration (Gmail example) ---
+app.config['MAIL_SERVER'] = os.environ.get('MAIL_SERVER', 'smtp.gmail.com')
+app.config['MAIL_PORT'] = int(os.environ.get('MAIL_PORT', 587))
+app.config['MAIL_USE_TLS'] = os.environ.get('MAIL_USE_TLS', 'True').lower() in ('true', '1', 'yes')
+app.config['MAIL_USERNAME'] = os.environ.get('EMAIL_USER')
+app.config['MAIL_PASSWORD'] = os.environ.get('EMAIL_PASS')
+# Optional default sender (helps some mail providers)
+app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('MAIL_DEFAULT_SENDER', app.config.get('MAIL_USERNAME'))
+
+# Instantiate Mail and serializer for generating timed tokens
+mail = Mail(app)
+s = URLSafeTimedSerializer(app.secret_key)
 
 # Initialize Flask-Login
 login_manager = LoginManager()
@@ -56,6 +82,23 @@ class User(db.Model,UserMixin):
     
     def check_password(self,password):
         return bcrypt.checkpw(password.encode('utf-8'), self.password.encode('utf-8'))
+
+    # --- Password reset token helpers ---
+    def get_reset_token(self, expires_sec=1800):
+        """Generates a secure, timed token. Default expiry argument is kept for API compatibility."""
+        # serializer enforces expiry on loads (max_age); dumps does not take expiry
+        return s.dumps(self.email, salt='password-reset-salt')
+
+    @staticmethod
+    def verify_reset_token(token):
+        """
+        Verifies the reset token. Returns the User if valid, otherwise None.
+        """
+        try:
+            email = s.loads(token, salt='password-reset-salt', max_age=1800)
+        except (SignatureExpired, BadTimeSignature):
+            return None
+        return User.query.filter_by(email=email).first()
 
 
 @login_manager.user_loader
@@ -217,11 +260,39 @@ def sign_up():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        username = request.form['username']
-        email = request.form['email']
-        password = request.form['password']
+        # Accept either username or email-based login; prefer email if provided
+        email = request.form.get('email')
+        password = request.form.get('password')
 
-        user = User.query.filter_by(username=username, email=email).first()
+        # Verify reCAPTCHA
+        recaptcha_resp = request.form.get('g-recaptcha-response')
+        recaptcha_secret = RECAPTCHA_SECRET
+        if not recaptcha_resp or not recaptcha_secret:
+            flash('Captcha validation failed. Please try again.', 'error')
+            return render_template('login.html', error='Captcha required', recaptcha_site_key=RECAPTCHA_SITE_KEY)
+
+        # Server-side verification with Google
+        try:
+            data = urllib.parse.urlencode({'secret': recaptcha_secret, 'response': recaptcha_resp}).encode()
+            req = urllib.request.Request('https://www.google.com/recaptcha/api/siteverify', data=data)
+            with urllib.request.urlopen(req, timeout=10) as resp:
+                result = json.loads(resp.read().decode())
+        except Exception as e:
+            print('Error verifying recaptcha:', e)
+            flash('Captcha verification failed (network). Please try again.', 'error')
+            return render_template('login.html', error='Captcha verification failed', recaptcha_site_key=RECAPTCHA_SITE_KEY)
+
+        if not result.get('success'):
+            flash('Captcha validation failed. Please try again.', 'error')
+            return render_template('login.html', error='Invalid captcha', recaptcha_site_key=RECAPTCHA_SITE_KEY)
+
+        # Find user by email (or username fallback)
+        user = None
+        if email:
+            user = User.query.filter_by(email=email).first()
+        else:
+            username = request.form.get('username')
+            user = User.query.filter_by(username=username).first() if username else None
 
         if user and user.check_password(password):
             login_user(user)
@@ -229,9 +300,9 @@ def login():
             session['username'] = user.username  # Save username in session
             return redirect(url_for('home_login'))
         else:
-            return render_template('login.html',  error='Invalid credentials')
+            return render_template('login.html',  error='Invalid credentials', recaptcha_site_key=RECAPTCHA_SITE_KEY)
 
-    return render_template('login.html')
+    return render_template('login.html', recaptcha_site_key=RECAPTCHA_SITE_KEY)
 
 
 @app.route('/index_bot', methods=['GET', 'POST'])
@@ -239,12 +310,153 @@ def bot():
     return render_template('index_bot.html')
 
 
+@app.route('/ajax_login', methods=['POST'])
+def ajax_login():
+    # AJAX login endpoint: returns JSON with success or error messages
+    try:
+        email = request.form.get('email')
+        password = request.form.get('password')
+        recaptcha_resp = request.form.get('g-recaptcha-response')
+
+        if not recaptcha_resp or not RECAPTCHA_SECRET:
+            return jsonify({'success': False, 'error': 'Captcha required.'}), 400
+
+        # Verify captcha with Google
+        try:
+            data = urllib.parse.urlencode({'secret': RECAPTCHA_SECRET, 'response': recaptcha_resp}).encode()
+            req = urllib.request.Request('https://www.google.com/recaptcha/api/siteverify', data=data)
+            with urllib.request.urlopen(req, timeout=10) as resp:
+                result = json.loads(resp.read().decode())
+        except Exception as e:
+            print('Error verifying recaptcha (ajax):', e)
+            return jsonify({'success': False, 'error': 'Captcha verification failed (network).'}), 500
+
+        if not result.get('success'):
+            return jsonify({'success': False, 'error': 'Captcha validation failed.'}), 400
+
+        user = None
+        if email:
+            user = User.query.filter_by(email=email).first()
+        else:
+            username = request.form.get('username')
+            if username:
+                user = User.query.filter_by(username=username).first()
+
+        if user and user.check_password(password):
+            login_user(user)
+            session['email'] = user.email
+            session['username'] = user.username
+            return jsonify({'success': True, 'redirect': url_for('home_login')}), 200
+        else:
+            return jsonify({'success': False, 'error': 'Invalid credentials.'}), 401
+    except Exception as e:
+        print('Unexpected error in ajax_login:', e)
+        return jsonify({'success': False, 'error': 'Internal server error.'}), 500
+
+
+@app.route('/reset_token/<token>', methods=['GET', 'POST'])
+def reset_token(token):
+    """Validate a password-reset token and allow the user to set a new password.
+
+    This route expects the token in the URL path and shows a form to enter a
+    new password. On success, it updates the user's hashed password and
+    redirects to the login page.
+    """
+    user = User.verify_reset_token(token)
+
+    if user is None:
+        flash('That is an invalid or expired token. Please try again.', 'warning')
+        return redirect(url_for('sign_up'))
+
+    if request.method == 'POST':
+        password = request.form.get('password')
+        confirm_password = request.form.get('confirm_password')
+
+        if not password or not confirm_password:
+            flash('Please provide and confirm your new password.', 'danger')
+            return render_template('reset_token.html', token=token)
+
+        if password != confirm_password:
+            flash('Passwords do not match.', 'danger')
+            return render_template('reset_token.html', token=token)
+
+        # Hash the new password and store it
+        hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+        user.password = hashed_password
+        try:
+            db.session.commit()
+        except Exception as e:
+            db.session.rollback()
+            print('Error saving new password:', e)
+            flash('An error occurred while updating the password. Please try again.', 'danger')
+            return render_template('reset_token.html', token=token)
+
+        flash('Your password has been successfully updated! You can now log in.', 'success')
+        return redirect(url_for('login'))
+
+    return render_template('reset_token.html', token=token)
+
+
+@app.route('/forgot_password', methods=['GET', 'POST'])
+def forgot_password():
+    """Request password-reset: collect email, send reset link if user exists.
+
+    For security we always flash the same message so attackers cannot enumerate
+    whether an email exists in the system.
+    """
+    if request.method == 'POST':
+        email = request.form.get('email')
+        if not email:
+            flash('Please enter your email address.', 'danger')
+            return render_template('forgot_password.html')
+
+        try:
+            user = User.query.filter_by(email=email).first()
+        except Exception as db_err:
+            # Handle transient DB/SSL connection errors gracefully
+            print('Database error during forgot_password:', repr(db_err))
+            try:
+                db.session.rollback()
+            except Exception:
+                pass
+            flash('Database temporarily unavailable. Please try again in a few minutes.', 'danger')
+            return render_template('forgot_password.html')
+        if user:
+            try:
+                token = user.get_reset_token()
+                reset_url = url_for('reset_token', token=token, _external=True)
+
+                subject = 'FIR-SAHAYAK Password Reset'
+                msg = Message(subject=subject, recipients=[user.email])
+                # Plain text fallback
+                msg.body = f"To reset your password, visit the following link:\n\n{reset_url}\n\nIf you did not request this, please ignore this email."
+                # HTML body from template
+                try:
+                    msg.html = render_template('emails/reset_password.html', reset_url=reset_url, user=user)
+                except Exception:
+                    # If rendering fails, just continue with plain text
+                    pass
+
+                mail.send(msg)
+            except Exception as e:
+                print('Error sending password reset email:', e)
+                # Do not reveal technical details to the user
+                flash('There was an error sending the reset email. Please try again later.', 'danger')
+                return render_template('forgot_password.html')
+
+        # Always show generic message
+        flash('If an account with that email exists, you will receive password reset instructions shortly.', 'info')
+        return redirect(url_for('home'))
+
+    return render_template('forgot_password.html')
+
+
 
 @app.route('/', methods=['GET','POST'])
 def home():
     if request.method == 'POST':
         return redirect(url_for('sign_up'))
-    return render_template('home.html')
+    return render_template('home.html', recaptcha_site_key=os.getenv('SITE_KEY'))
 
 
 
@@ -265,7 +477,7 @@ def home_login():
     if 'email' in session:
         email = session['email']
         user = User.query.filter_by(email=email).first()
-        return render_template('home_login.html', user=user)
+        return render_template('home_login.html', user=user, recaptcha_site_key=os.getenv('SITE_KEY'))
 
     flash('YOU ARE NOT LOGGED IN', 'error')
     return redirect(url_for('home'))

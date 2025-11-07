@@ -8,3 +8,5 @@ google-generativeai
 gunicorn
 python-dotenv
 psycopg2-binary
+Flask-Mail
+itsdangerous

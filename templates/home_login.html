@@ -51,14 +51,14 @@
 
             <div class="nav-elem">
                 <h4>VIEW FIR STATUS</h4>
-                <a href="/view_fir_status">View FIR</a>
+                <h5><a href="/view_fir_status"><span>View FIR</span></a></h5>
             </div>
         </div>
-        <button><svg fill="none" viewBox="0 0 20 20">
+    <button id="loginBtn"><svg fill="none" viewBox="0 0 20 20">
                 <path fill="#fff"
                     d="M2.5 14.375V17.5h3.125l9.217-9.217-3.125-3.125L2.5 14.375Zm14.758-8.508a.83.83 0 0 0 0-1.175l-1.95-1.95a.83.83 0 0 0-1.175 0l-1.525 1.525 3.125 3.125 1.525-1.525Z">
                 </path>
-            </svg><a href="/fir_form">REGISTER FIR</a></button>
+            </svg>LOGIN/SIGN-UP</button>
         <div id="nav-bottom">
 
         </div>
@@ -129,10 +129,9 @@
         </div>
     </div>
     <div id="page5">
-        <button>LOGIN/SIGN-UP</button>
+        <div class="button"><a href="/fir_form">REGISTER FIR</a></div>
         <div id="page5-right">
-            <p><span></span>FIR Sahayak is an initiative started by  <span></span>Group no. 101 . This is a portal for online FIR registration where users can simply answer required question and get there FIR registered.
-                Qui, a aut! Aspernatur et nesciunt iure consequuntur nisi quisquam amet deserunt odit temporibus! Iusto laboriosam pariatur voluptas fugiat accusantium corrupti unde aliquam repellendus hic impedit? Consequuntur..</p>
+            <p>FIR Assistant is a secure online platform that simplifies the process of filing First Information Reports (FIRs). It features an intuitive web interface, accessible from any device, that guides users through the registration with an intelligent bot to ensure accuracy. The platform includes secure user authentication, seamless session management, and IP address tracking for enhanced accountability. After submission, users can download their FIR reports as PDFs and even request corrections to previously registered records.</p>
             <div id="page5-content">
                 <div class="uiux">
                     <details open>
@@ -209,13 +208,97 @@
     </div>
     </div>
 
+    <!-- Login modal markup -->
+    <div id="loginModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="close" id="loginClose">&times;</span>
+            <h2>Login</h2>
+            <form action="/login" method="post" class="modal-form">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+                <div style="margin-top:10px;" class="g-recaptcha" data-sitekey="{{ recaptcha_site_key }}"></div>
+                <button type="submit" class="modal-submit">Login</button>
+            </form>
+            <p class="modal-footer">New to the website? <a href="/sign_up">Register now</a></p>
+        </div>
+    </div>
+
     <script>
-        // JavaScript to handle button click event
-        document.getElementById("botButton").addEventListener("click", function() {
+    // Safely attach botButton handler if element exists (keeps backward compatibility)
+    var botBtn = document.getElementById("botButton");
+    if (botBtn) {
+        botBtn.addEventListener("click", function() {
             // Redirect to the bot interface page
             window.location.href = "/index_bot";
-
         });
+    }
+
+    // Login modal behaviour + AJAX submit
+    var loginBtn = document.getElementById('loginBtn');
+    var loginModal = document.getElementById('loginModal');
+    var loginClose = document.getElementById('loginClose');
+    var loginForm = document.getElementById('loginForm');
+    var loginError = document.getElementById('loginError');
+
+    function openLoginModal(){
+        if(loginModal) loginModal.style.display = 'block';
+        try{ if(window.grecaptcha) grecaptcha.reset(); }catch(e){}
+    }
+
+    if (loginBtn && loginModal) {
+        loginBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            openLoginModal();
+        });
+    }
+    if (loginClose) {
+        loginClose.addEventListener('click', function() {
+            loginModal.style.display = 'none';
+        });
+    }
+    // Close modal when clicking outside content
+    window.addEventListener('click', function(e) {
+        if (e.target === loginModal) {
+            loginModal.style.display = 'none';
+        }
+    });
+
+    // AJAX form submit
+    if (loginForm) {
+        loginForm.addEventListener('submit', function(e){
+            e.preventDefault();
+            loginError.style.display = 'none';
+            var formData = new FormData(loginForm);
+            var captchaResponse = '';
+            try{ captchaResponse = grecaptcha.getResponse(); }catch(err){captchaResponse='';}
+            if(!captchaResponse){
+                loginError.textContent = 'Please complete the captcha.';
+                loginError.style.display = 'block';
+                return;
+            }
+            formData.append('g-recaptcha-response', captchaResponse);
+
+            fetch('/ajax_login', { method: 'POST', body: formData, credentials: 'same-origin' })
+                .then(function(res){ return res.json().then(function(data){ return {status: res.status, body: data}; }); })
+                .then(function(result){
+                    if(result.status === 200 && result.body.success){
+                        // redirect to target
+                        window.location.href = result.body.redirect || '/home_login';
+                    } else {
+                        var msg = (result.body && result.body.error) ? result.body.error : 'Login failed.';
+                        loginError.textContent = msg;
+                        loginError.style.display = 'block';
+                        try{ grecaptcha.reset(); }catch(e){}
+                    }
+                }).catch(function(err){
+                    loginError.textContent = 'Network error. Please try again.';
+                    loginError.style.display = 'block';
+                    try{ grecaptcha.reset(); }catch(e){}
+                });
+        });
+    }
     </script>
    
 <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@3.5.4/dist/locomotive-scroll.js"></script>
@@ -227,6 +310,7 @@ crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
 <script src="https://kit.fontawesome.com/1165876da6.js" crossorigin="anonymous"></script>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <script>
         // Access the Images
 let slideImages = document.querySelectorAll('img');
