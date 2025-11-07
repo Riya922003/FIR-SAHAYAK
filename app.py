@@ -2,6 +2,7 @@ from datetime import datetime
 from flask import Flask , request,render_template, redirect,session, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
+from sqlalchemy.exc import IntegrityError
 
     
 import bcrypt
@@ -21,6 +22,11 @@ db = SQLAlchemy(app)
 # Use an environment variable for secret key in production
 app.secret_key = os.getenv('FLASK_SECRET_KEY', 'change_me_in_production')
 
+# Initialize Flask-Login
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
+
 
 class User(db.Model,UserMixin):
     id=db.Column(db.Integer,primary_key=True)
@@ -29,9 +35,10 @@ class User(db.Model,UserMixin):
     # store only the hashed password (not unique, allow same password for multiple users)
     password=db.Column(db.String(128),nullable=False)
     Full_name=db.Column(db.String(30),nullable=False)
-    Number=db.Column(db.Integer,nullable=False)
-    Phone_number=db.Column(db.Integer,nullable=False)
-    Adhar_card_number=db.Column(db.Integer,nullable=False,unique=True)
+    # Use String for phone/number fields to allow leading zeros and flexible formats
+    Number=db.Column(db.String(32),nullable=False)
+    Phone_number=db.Column(db.String(32),nullable=False)
+    Adhar_card_number=db.Column(db.String(64),nullable=False,unique=True)
     
     
     def __init__(self, username, email, password, Full_name, Number, Phone_number, Adhar_card_number):
@@ -47,6 +54,14 @@ class User(db.Model,UserMixin):
     
     def check_password(self,password):
         return bcrypt.checkpw(password.encode('utf-8'), self.password.encode('utf-8'))
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    try:
+        return User.query.get(int(user_id))
+    except Exception:
+        return None
 
         
 
@@ -168,9 +183,19 @@ def sign_up():
             return render_template('s.html')
 
         new_user = User(username=username, email=email, password=password, Full_name=Full_name, Number=Number, Phone_number=Phone_number, Adhar_card_number=Adhar_card_number)
-        db.session.add(new_user)
-        db.session.commit()
-        return redirect(url_for('login'))
+        try:
+            db.session.add(new_user)
+            db.session.commit()
+            return redirect(url_for('login'))
+        except IntegrityError as e:
+            db.session.rollback()
+            # likely duplicate email or Adhar
+            flash('A user with that email or Aadhar number already exists.', 'error')
+            return render_template('s.html')
+        except Exception as e:
+            db.session.rollback()
+            flash('An error occurred creating the account.', 'error')
+            return render_template('s.html')
         
     return render_template('s.html')
 
@@ -185,6 +210,7 @@ def login():
         user = User.query.filter_by(username=username, email=email).first()
 
         if user and user.check_password(password):
+            login_user(user)
             session['email'] = user.email
             session['username'] = user.username  # Save username in session
             return redirect(url_for('home_login'))
@@ -244,6 +270,11 @@ def dashboard():
 
 @app.route('/logout')
 def logout():
+    # log out via flask-login as well
+    try:
+        logout_user()
+    except Exception:
+        pass
     session.pop('email', None)
     session.pop('username', None)
     return redirect(url_for('home'))
