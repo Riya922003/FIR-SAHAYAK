@@ -28,10 +28,21 @@ RECAPTCHA_SECRET = os.getenv('RECAPTCHA_SECRET') or os.getenv('SECRET_KEY')
 
 app = Flask(__name__)
 # Read the database URL from the environment (e.g. DATABASE_URL)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+# If DATABASE_URL is not set or the remote DB is unreachable, fall back to a local sqlite
+database_url = os.environ.get('DATABASE_URL')
+if not database_url:
+    # ensure instance folder exists for sqlite file
+    try:
+        os.makedirs(os.path.join(os.path.dirname(__file__), 'instance'), exist_ok=True)
+    except Exception:
+        pass
+    database_url = 'sqlite:///instance/app.db'
+
+app.config['SQLALCHEMY_DATABASE_URI'] = database_url
 # Prevent errors when the DB connection in the pool becomes invalid (network/SSL hiccups)
 # This enables SQLAlchemy's pool_pre_ping which checks connections before use.
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = { 'pool_pre_ping': True }
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 # Use an environment variable for secret key in production
 # Prefer SECRET_KEY, fall back to FLASK_SECRET_KEY for compatibility
@@ -233,28 +244,31 @@ def sign_up():
         # basic validation
         if not (username and email and password and confirm_password):
             flash('Please fill in all required fields', 'error')
-            return render_template('s.html')
+            # Return to home and open the register modal so the user can retry
+            return render_template('home.html', error='Please fill in all required fields', recaptcha_site_key=RECAPTCHA_SITE_KEY, show_register_modal=True)
 
         if password != confirm_password:
             flash('Passwords do not match', 'error')
-            return render_template('s.html')
+            return render_template('home.html', error='Passwords do not match', recaptcha_site_key=RECAPTCHA_SITE_KEY, show_register_modal=True)
 
         new_user = User(username=username, email=email, password=password, Full_name=Full_name, Number=Number, Phone_number=Phone_number, Adhar_card_number=Adhar_card_number)
         try:
             db.session.add(new_user)
             db.session.commit()
-            return redirect(url_for('login'))
+            flash('Account created — please log in using the login modal.', 'success')
+            return redirect(url_for('home'))
         except IntegrityError as e:
             db.session.rollback()
             # likely duplicate email or Adhar
             flash('A user with that email or Aadhar number already exists.', 'error')
-            return render_template('s.html')
+            return render_template('home.html', error='A user with that email or Aadhar number already exists.', recaptcha_site_key=RECAPTCHA_SITE_KEY, show_register_modal=True)
         except Exception as e:
             db.session.rollback()
             flash('An error occurred creating the account.', 'error')
-            return render_template('s.html')
+            return render_template('home.html', error='An error occurred creating the account.', recaptcha_site_key=RECAPTCHA_SITE_KEY, show_register_modal=True)
         
-    return render_template('s.html')
+    # For GET requests, redirect to the homepage where the register modal exists
+    return redirect(url_for('home'))
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -269,7 +283,8 @@ def login():
         recaptcha_secret = RECAPTCHA_SECRET
         if not recaptcha_resp or not recaptcha_secret:
             flash('Captcha validation failed. Please try again.', 'error')
-            return render_template('login.html', error='Captcha required', recaptcha_site_key=RECAPTCHA_SITE_KEY)
+            # Render the home page and ask it to open the login modal so users can retry
+            return render_template('home.html', error='Captcha required', recaptcha_site_key=RECAPTCHA_SITE_KEY, show_login_modal=True)
 
         # Server-side verification with Google
         try:
@@ -280,11 +295,11 @@ def login():
         except Exception as e:
             print('Error verifying recaptcha:', e)
             flash('Captcha verification failed (network). Please try again.', 'error')
-            return render_template('login.html', error='Captcha verification failed', recaptcha_site_key=RECAPTCHA_SITE_KEY)
+            return render_template('home.html', error='Captcha verification failed', recaptcha_site_key=RECAPTCHA_SITE_KEY, show_login_modal=True)
 
         if not result.get('success'):
             flash('Captcha validation failed. Please try again.', 'error')
-            return render_template('login.html', error='Invalid captcha', recaptcha_site_key=RECAPTCHA_SITE_KEY)
+            return render_template('home.html', error='Invalid captcha', recaptcha_site_key=RECAPTCHA_SITE_KEY, show_login_modal=True)
 
         # Find user by email (or username fallback)
         user = None
@@ -300,9 +315,11 @@ def login():
             session['username'] = user.username  # Save username in session
             return redirect(url_for('home_login'))
         else:
-            return render_template('login.html',  error='Invalid credentials', recaptcha_site_key=RECAPTCHA_SITE_KEY)
+            # Invalid credentials: render home and open the login modal
+            return render_template('home.html',  error='Invalid credentials', recaptcha_site_key=RECAPTCHA_SITE_KEY, show_login_modal=True)
 
-    return render_template('login.html', recaptcha_site_key=RECAPTCHA_SITE_KEY)
+    # For GET requests, redirect to the home page where the login modal exists
+    return redirect(url_for('home'))
 
 
 @app.route('/index_bot', methods=['GET', 'POST'])
@@ -391,8 +408,8 @@ def reset_token(token):
             flash('An error occurred while updating the password. Please try again.', 'danger')
             return render_template('reset_token.html', token=token)
 
-        flash('Your password has been successfully updated! You can now log in.', 'success')
-        return redirect(url_for('login'))
+    flash('Your password has been successfully updated! You can now log in.', 'success')
+    return redirect(url_for('home'))
 
     return render_template('reset_token.html', token=token)
 
@@ -456,7 +473,8 @@ def forgot_password():
 def home():
     if request.method == 'POST':
         return redirect(url_for('sign_up'))
-    return render_template('home.html', recaptcha_site_key=os.getenv('SITE_KEY'))
+    # Use the normalized RECAPTCHA_SITE_KEY variable (set from environment or .env)
+    return render_template('home.html', recaptcha_site_key=RECAPTCHA_SITE_KEY)
 
 
 
@@ -477,7 +495,8 @@ def home_login():
     if 'email' in session:
         email = session['email']
         user = User.query.filter_by(email=email).first()
-        return render_template('home_login.html', user=user, recaptcha_site_key=os.getenv('SITE_KEY'))
+    # Use the preloaded RECAPTCHA_SITE_KEY so templates always receive the same value
+    return render_template('home_login.html', user=user, recaptcha_site_key=RECAPTCHA_SITE_KEY)
 
     flash('YOU ARE NOT LOGGED IN', 'error')
     return redirect(url_for('home'))
@@ -591,7 +610,14 @@ def log_chat(user_input, response):
 
 with app.app_context():
     # create DB tables if they don't exist (safe on startup)
-    db.create_all()
+    # If the configured DATABASE_URL points to a remote Postgres instance that is
+    # temporarily unreachable (DNS or network issues), don't crash the whole app on startup.
+    try:
+        db.create_all()
+    except OperationalError as oe:
+        # Log the error and continue starting the app with degraded DB functionality.
+        print('WARNING: could not initialize the database on startup:', oe)
+        print('If you intended to use a remote database, please check your DATABASE_URL and network/DNS settings.')
 
 if __name__ == '__main__':
     app.run(debug=False)

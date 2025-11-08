@@ -80,13 +80,11 @@
             <div class="slide-container">
 
                 <div class="slides">
-                    <img src="{{ url_for('static', filename='Untitled design-4.png') }}" class="active">
-                    <img src="{{ url_for('static', filename='Untitled design-5.png') }}">
-                    <img src="{{ url_for('static', filename='image.png') }}">
-                    <img src="https://digitalpolice.gov.in/Content/images/banner.jpg">
-                    <img src="{{ url_for('static', filename='Untitled design-4.png') }}">
-                    <img src="{{ url_for('static', filename='Untitled design-5.png') }}">
-                    <img src="https://digitalpolice.gov.in/Content/images/banner.jpg">
+                    <img src="{{ url_for('static', filename='Untitled design-4.png') }}" class="active" data-loaded="true" loading="lazy" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22600%22 height=%22350%22><rect width=%22600%22 height=%22350%22 fill=%22%23dddddd%22/><text x=%2230%22 y=%22200%22 font-size=%2232%22 fill=%22%23666%22>Image+not+available</text></svg>';this.setAttribute('data-loaded','true');">
+                    <img src="{{ url_for('static', filename='Untitled design-5.png') }}" loading="lazy" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22600%22 height=%22350%22><rect width=%22600%22 height=%22350%22 fill=%22%23dddddd%22/><text x=%2230%22 y=%22200%22 font-size=%2232%22 fill=%22%23666%22>Image+not+available</text></svg>';this.setAttribute('data-loaded','true');">
+                    <img src="{{ url_for('static', filename='image.png') }}" loading="lazy" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22600%22 height=%22350%22><rect width=%22600%22 height=%22350%22 fill=%22%23dddddd%22/><text x=%2230%22 y=%22200%22 font-size=%2232%22 fill=%22%23666%22>Image+not+available</text></svg>';this.setAttribute('data-loaded','true');">
+                    <img src="https://digitalpolice.gov.in/Content/images/banner.jpg" loading="lazy" onerror="this.onerror=null;this.style.display='none';this.setAttribute('data-loaded','true');">
+                    <img src="https://images.unsplash.com/photo-1529101091764-c3526daf38fe?auto=format&fit=crop&w=1600&q=80" loading="lazy" onerror="this.onerror=null;this.setAttribute('data-loaded','true');this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22600%22 height=%22350%22><rect width=%22600%22 height=%22350%22 fill=%22%23dddddd%22/><text x=%2230%22 y=%22200%22 font-size=%2232%22 fill=%22%23666%22>Image+not+available</text></svg>';">
                 </div>
                 
 
@@ -96,13 +94,7 @@
                 </div>
 
                 <div class="dotsContainer">
-                    <div class="dot active" attr='0' onclick="switchImage(this)"></div>
-                    <div class="dot" attr='1' onclick="switchImage(this)"></div>
-                    <div class="dot" attr='2' onclick="switchImage(this)"></div>
-                    <div class="dot" attr='3' onclick="switchImage(this)"></div>
-                    <div class="dot" attr='4' onclick="switchImage(this)"></div>
-                    <div class="dot" attr='5' onclick="switchImage(this)"></div>
-                    <div class="dot" attr='6' onclick="switchImage(this)"></div>
+                    <!-- dots will be generated dynamically by JS -->
                 </div>
 
             </div>
@@ -110,14 +102,14 @@
             <div id="moving-div">
                 <div id="blur-left"></div>
                 <div class="move">
-                    <img src="https://cdn.dnaindia.com/sites/default/files/styles/full/public/2015/12/27/408883-delhi-police-logo.jpg" alt="">
-                    <img src="https://tse4.mm.bing.net/th?id=OIP.7K7QEzRfQpeDVLWtKiij3gHaNK&pid=Api&P=0&h=180" alt="">
-                    <img src="https://aniportalimages.s3.amazonaws.com/media/details/SKFDJKLASJFKLJASD2021081908114120210916090821.jpg" alt="">
-                    <img src="https://tse3.mm.bing.net/th?id=OIP.-Zku30boNYU7Yr8Jx6w8xwHaDn&pid=Api&P=0&h=180" alt="">
-                    <img src="https://imgk.timesnownews.com/story/Chennai-Police.jpg" alt="">
-                    <img src="https://tse2.mm.bing.net/th?id=OIP.My0L79vf3wzPD4e1hI93LAHaEK&pid=Api&P=0&h=180" alt="">
-                    <img src="https://tse2.mm.bing.net/th?id=OIP.F3M37dvPL1IBD-4lrbGd6wHaHa&pid=Api&P=0&h=180" alt="">
-                    <img src="https://tse4.mm.bing.net/th?id=OIP.glM8EsNibecQHbipBN2ygwHaEq&pid=Api&P=0&h=180" alt="">
+                    <img src="https://cdn.dnaindia.com/sites/default/files/styles/full/public/2015/12/27/408883-delhi-police-logo.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.style.display='none';">
+                    <img src="https://tse4.mm.bing.net/th?id=OIP.7K7QEzRfQpeDVLWtKiij3gHaNK&pid=Api&P=0&h=180" alt="" loading="lazy" onerror="this.onerror=null;this.style.display='none';">
+                    <img src="https://aniportalimages.s3.amazonaws.com/media/details/SKFDJKLASJFKLJASD2021081908114120210916090821.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.style.display='none';">
+                    <img src="https://tse3.mm.bing.net/th?id=OIP.-Zku30boNYU7Yr8Jx6w8xwHaDn&pid=Api&P=0&h=180" alt="" loading="lazy" onerror="this.onerror=null;this.style.display='none';">
+                    <img src="https://imgk.timesnownews.com/story/Chennai-Police.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.style.display='none';">
+                    <img src="https://tse2.mm.bing.net/th?id=OIP.My0L79vf3wzPD4e1hI93LAHaEK&pid=Api&P=0&h=180" alt="" loading="lazy" onerror="this.onerror=null;this.style.display='none';">
+                    <img src="https://tse2.mm.bing.net/th?id=OIP.F3M37dvPL1IBD-4lrbGd6wHaHa&pid=Api&P=0&h=180" alt="" loading="lazy" onerror="this.onerror=null;this.style.display='none';">
+                    <img src="https://tse4.mm.bing.net/th?id=OIP.glM8EsNibecQHbipBN2ygwHaEq&pid=Api&P=0&h=180" alt="" loading="lazy" onerror="this.onerror=null;this.style.display='none';">
                 </div>
                 <div class="move">
                     <img src="https://cdn.dnaindia.com/sites/default/files/styles/full/public/2015/12/27/408883-delhi-police-logo.jpg" alt="">
@@ -235,11 +227,52 @@
                 <input type="email" id="email" name="email" required>
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password" required>
-                <div style="margin-top:10px;" class="g-recaptcha" data-sitekey="{{ recaptcha_site_key }}"></div>
+                <!-- reCAPTCHA v3: hidden input receives token before submit -->
+                <input type="hidden" name="g-recaptcha-response" class="g-recaptcha-response">
                 <button type="submit" class="modal-submit">Login</button>
             </form>
             <div id="loginError" class="login-error" style="display:none; margin-top:10px;color:#b00020;"></div>
-            <p class="modal-footer">New to the website? <a href="/sign_up">Register now</a></p>
+            <p style="margin-top:8px;"><a href="{{ url_for('forgot_password') }}">Forgot your password?</a></p>
+            <p class="modal-footer">New to the website? <a href="/sign_up" id="openRegisterLink">Register now</a></p>
+        </div>
+    </div>
+
+    <!-- Register modal markup -->
+    <div id="registerModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="close" id="registerClose">&times;</span>
+            <h2>Register</h2>
+            <form id="registerForm" action="/sign_up" method="post" class="modal-form">
+                <label for="Full_name">Full Name</label>
+                <input type="text" id="Full_name" name="Full_name" required>
+
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required>
+
+                <label for="email_reg">Email</label>
+                <input type="email" id="email_reg" name="email" required>
+
+                <label for="Number">Number</label>
+                <input type="text" id="Number" name="Number" required>
+
+                <label for="Phone_number">Phone number</label>
+                <input type="text" id="Phone_number" name="Phone_number" required>
+
+                <label for="Adhar_card_number">Adhar-Card Number</label>
+                <input type="text" id="Adhar_card_number" name="Adhar_card_number" required>
+
+                <label for="password_reg">Password</label>
+                <input type="password" id="password_reg" name="password" required>
+
+                <label for="confirm_password_reg">Confirm Password</label>
+                <input type="password" id="confirm_password_reg" name="confirm_password" required>
+
+                <!-- reCAPTCHA v3: hidden input receives token before submit -->
+                <input type="hidden" name="g-recaptcha-response" class="g-recaptcha-response">
+
+                <button type="submit" class="modal-submit">Register</button>
+            </form>
+            <p style="margin-top:8px;">Already have an account? <a href="#" id="openLoginFromRegister">Login</a></p>
         </div>
     </div>
 
@@ -261,8 +294,7 @@
     var loginError = document.getElementById('loginError');
 
     function openLoginModal(){
-        if(loginModal) loginModal.style.display = 'block';
-        try{ if(window.grecaptcha) grecaptcha.reset(); }catch(e){}
+        if(loginModal) loginModal.style.display = 'flex';
     }
 
     if (loginBtn && loginModal) {
@@ -283,38 +315,43 @@
         }
     });
 
-    // AJAX form submit
-    if (loginForm) {
-        loginForm.addEventListener('submit', function(e){
-            e.preventDefault();
-            loginError.style.display = 'none';
-            var formData = new FormData(loginForm);
-            var captchaResponse = '';
-            try{ captchaResponse = grecaptcha.getResponse(); }catch(err){captchaResponse='';}
-            if(!captchaResponse){
-                loginError.textContent = 'Please complete the captcha.';
-                loginError.style.display = 'block';
-                return;
-            }
-            formData.append('g-recaptcha-response', captchaResponse);
+    // AJAX login is handled via reCAPTCHA v3 (grecaptcha.execute) in the v3 loader script above
 
-            fetch('/ajax_login', { method: 'POST', body: formData, credentials: 'same-origin' })
-                .then(function(res){ return res.json().then(function(data){ return {status: res.status, body: data}; }); })
-                .then(function(result){
-                    if(result.status === 200 && result.body.success){
-                        // redirect to target
-                        window.location.href = result.body.redirect || '/home_login';
-                    } else {
-                        var msg = (result.body && result.body.error) ? result.body.error : 'Login failed.';
-                        loginError.textContent = msg;
-                        loginError.style.display = 'block';
-                        try{ grecaptcha.reset(); }catch(e){}
-                    }
-                }).catch(function(err){
-                    loginError.textContent = 'Network error. Please try again.';
-                    loginError.style.display = 'block';
-                    try{ grecaptcha.reset(); }catch(e){}
-                });
+    // Register modal behaviour (opens from login modal or nav)
+    var registerModal = document.getElementById('registerModal');
+    var registerClose = document.getElementById('registerClose');
+    var openRegisterLink = document.getElementById('openRegisterLink');
+    var openLoginFromRegister = document.getElementById('openLoginFromRegister');
+
+    function openRegisterModal(){
+        if(registerModal) registerModal.style.display = 'flex';
+    }
+
+    if(openRegisterLink){
+        openRegisterLink.addEventListener('click', function(e){
+            // fallback href leads to /sign_up; prevent and open modal for JS-enabled browsers
+            e.preventDefault();
+            if(loginModal) loginModal.style.display = 'none';
+            openRegisterModal();
+        });
+    }
+    if(registerClose){
+        registerClose.addEventListener('click', function(){
+            registerModal.style.display = 'none';
+        });
+    }
+    // Close register modal when clicking outside
+    window.addEventListener('click', function(e){
+        if(e.target === registerModal){
+            registerModal.style.display = 'none';
+        }
+    });
+
+    if(openLoginFromRegister){
+        openLoginFromRegister.addEventListener('click', function(e){
+            e.preventDefault();
+            if(registerModal) registerModal.style.display = 'none';
+            openLoginModal();
         });
     }
     </script>
@@ -341,92 +378,207 @@ crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
 <script src="https://kit.fontawesome.com/1165876da6.js" crossorigin="anonymous"></script>
-<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <!-- Load reCAPTCHA v3 (render with site key) -->
+    <script src="https://www.google.com/recaptcha/api.js?render={{ recaptcha_site_key }}"></script>
+    <script>
+        // expose site key to inline scripts
+        const RECAPTCHA_SITE_KEY = "{{ recaptcha_site_key or '' }}";
+
+        // Update AJAX login handler to use reCAPTCHA v3
+        if (loginForm) {
+            loginForm.addEventListener('submit', function(e){
+                e.preventDefault();
+                loginError.style.display = 'none';
+
+                if (!RECAPTCHA_SITE_KEY) {
+                    loginError.textContent = 'Captcha not configured.';
+                    loginError.style.display = 'block';
+                    return;
+                }
+
+                grecaptcha.execute(RECAPTCHA_SITE_KEY, {action: 'login'}).then(function(token){
+                    try{ var formData = new FormData(loginForm); }catch(err){ formData = new FormData(); }
+                    formData.append('g-recaptcha-response', token);
+
+                    fetch('/ajax_login', { method: 'POST', body: formData, credentials: 'same-origin' })
+                        .then(function(res){ return res.json().then(function(data){ return {status: res.status, body: data}; }); })
+                        .then(function(result){
+                            if(result.status === 200 && result.body.success){
+                                window.location.href = result.body.redirect || '/home_login';
+                            } else {
+                                var msg = (result.body && result.body.error) ? result.body.error : 'Login failed.';
+                                loginError.textContent = msg;
+                                loginError.style.display = 'block';
+                            }
+                        }).catch(function(err){
+                            loginError.textContent = 'Network error. Please try again.';
+                            loginError.style.display = 'block';
+                        });
+                }).catch(function(err){
+                    loginError.textContent = 'Captcha error. Please try again.';
+                    loginError.style.display = 'block';
+                });
+            });
+        }
+
+        // Generic helper: attach v3 token to non-AJAX forms that have class 'needs-recaptcha'
+        document.querySelectorAll('form.needs-recaptcha').forEach(function(form){
+            form.addEventListener('submit', function(evt){
+                evt.preventDefault();
+                if(!RECAPTCHA_SITE_KEY){ form.submit(); return; }
+                grecaptcha.execute(RECAPTCHA_SITE_KEY, {action: form.dataset.recaptchaAction || 'submit'}).then(function(token){
+                    var hid = form.querySelector('input[name="g-recaptcha-response"]');
+                    if(!hid){ hid = document.createElement('input'); hid.type = 'hidden'; hid.name = 'g-recaptcha-response'; form.appendChild(hid); }
+                    hid.value = token;
+                    form.submit();
+                }).catch(function(){ form.submit(); });
+            });
+        });
+    </script>
 <script>
-        // Access the Images
-let slideImages = document.querySelectorAll('img');
-// Access the next and prev buttons
-let next = document.querySelector('.next');
-let prev = document.querySelector('.prev');
-// Access the indicators
-let dots = document.querySelectorAll('.dot');
+        // Carousel setup - wrapped in try/catch so a single error doesn't stop the page
+        try {
+            // Access the slide images (only inside the carousel)
+            let slideImages = document.querySelectorAll('.slide-container .slides img');
+            // Access the next and prev buttons
+            let next = document.querySelector('.next');
+            let prev = document.querySelector('.prev');
+            // Dots container (we'll generate dots dynamically)
+            let dotsContainer = document.querySelector('.dotsContainer');
+            let dots = [];
 
-var counter = 0;
+            var counter = 0;
 
-// Code for next button
-next.addEventListener('click', slideNext);
-function slideNext(){
-slideImages[counter].style.animation = 'next1 0.5s ease-in forwards';
-if(counter >= slideImages.length-1){
-counter=0;
-}
-else{
-counter++;
-}
-slideImages[counter].style.animation = 'next2 0.5s ease-in forwards';
-indicators();
-}
+            // build dots based on number of slides
+            if (dotsContainer && slideImages.length) {
+                dotsContainer.innerHTML = '';
+                for (let i = 0; i < slideImages.length; i++) {
+                    const d = document.createElement('div');
+                    d.className = 'dot' + (i === 0 ? ' active' : '');
+                    d.setAttribute('attr', String(i));
+                    d.addEventListener('click', function() { switchImage(this); });
+                    dotsContainer.appendChild(d);
+                }
+                dots = Array.from(dotsContainer.querySelectorAll('.dot'));
+            }
 
-// Code for prev button
-prev.addEventListener('click', slidePrev);
-function slidePrev(){
-slideImages[counter].style.animation = 'prev1 0.5s ease-in forwards';
-if(counter == 0){
-counter = slideImages.length-1;
-}
-else{
-counter--;
-}
-slideImages[counter].style.animation = 'prev2 0.5s ease-in forwards';
-indicators();
-}
+            // Preload slide images and fade them in when ready
+            function preloadSlides() {
+                slideImages.forEach(function(img){
+                    try{
+                        var tmp = new Image();
+                        tmp.onload = function(){
+                            img.setAttribute('data-loaded','true');
+                        };
+                        tmp.onerror = function(){
+                            // if loading fails, still mark as loaded to avoid permanent blank
+                            img.setAttribute('data-loaded','true');
+                        };
+                        tmp.src = img.src;
+                    }catch(e){
+                        img.setAttribute('data-loaded','true');
+                    }
+                });
+            }
+            preloadSlides();
 
-// Auto slideing
-function autoSliding(){
-deletInterval = setInterval(timer, 3000);
-function timer(){
-slideNext();
-indicators();
-}
-}
-autoSliding();
+            // If for some reason images didn't signal loaded (e.g. blocked cross-origin), ensure at least the first slide becomes visible
+            setTimeout(function(){
+                var anyLoaded = Array.from(slideImages).some(function(img){ return img.getAttribute('data-loaded') === 'true'; });
+                if(!anyLoaded && slideImages.length){
+                    slideImages[0].setAttribute('data-loaded','true');
+                }
+            }, 1200);
 
-// Stop auto sliding when mouse is over
-const container = document.querySelector('.slide-container');
-container.addEventListener('mouseover', function(){
-clearInterval(deletInterval);
-});
+            // Code for next button (safe guards)
+            if(next) next.addEventListener('click', slideNext);
+            function slideNext(){
+                try{
+                    if(!slideImages || slideImages.length === 0) return;
+                    // current slide
+                    var prevIndex = counter;
+                    if(slideImages[prevIndex]) slideImages[prevIndex].style.animation = 'next1 0.5s ease-in forwards';
+                    // compute next
+                    counter = (counter + 1) % slideImages.length;
+                    if(slideImages[counter]) slideImages[counter].style.animation = 'next2 0.5s ease-in forwards';
+                    // make sure indicators clamp
+                    if(dots && dots.length){ if(counter >= dots.length) counter = 0; }
+                    indicators();
+                }catch(e){ console.error('slideNext error', e); }
+            }
 
-// Resume sliding when mouse is out
-container.addEventListener('mouseout', autoSliding);
+            // Code for prev button (safe guards)
+            if(prev) prev.addEventListener('click', slidePrev);
+            function slidePrev(){
+                try{
+                    if(!slideImages || slideImages.length === 0) return;
+                    var prevIndex = counter;
+                    if(slideImages[prevIndex]) slideImages[prevIndex].style.animation = 'prev1 0.5s ease-in forwards';
+                    // compute prev
+                    counter = (counter - 1 + slideImages.length) % slideImages.length;
+                    if(slideImages[counter]) slideImages[counter].style.animation = 'prev2 0.5s ease-in forwards';
+                    // clamp indicators
+                    if(dots && dots.length){ if(counter >= dots.length) counter = 0; }
+                    indicators();
+                }catch(e){ console.error('slidePrev error', e); }
+            }
 
-// Add and remove active class from the indicators
-function indicators(){
-for(i = 0; i < dots.length; i++){
-dots[i].className = dots[i].className.replace(' active', '');
-}
-dots[counter].className += ' active';
-}
+            // Auto sliding
+            var deletInterval = null;
+            function autoSliding(){
+                deletInterval = setInterval(function(){ slideNext(); indicators(); }, 3000);
+            }
+            autoSliding();
 
-// Add click event to the indicator
-function switchImage(currentImage){
-currentImage.classList.add('active');
-var imageId = currentImage.getAttribute('attr');
-if(imageId > counter){
-slideImages[counter].style.animation = 'next1 0.5s ease-in forwards';
-counter = imageId;
-slideImages[counter].style.animation = 'next2 0.5s ease-in forwards';
-}
-else if(imageId == counter){
-return;
-}
-else{
-slideImages[counter].style.animation = 'prev1 0.5s ease-in forwards';
-counter = imageId;
-slideImages[counter].style.animation = 'prev2 0.5s ease-in forwards';	
-}
-indicators();
-}
+            // Stop auto sliding when mouse is over
+            const container = document.querySelector('.slide-container');
+            if(container){
+                container.addEventListener('mouseover', function(){
+                    if(deletInterval) clearInterval(deletInterval);
+                });
+
+                // Resume sliding when mouse is out
+                container.addEventListener('mouseout', autoSliding);
+            }
+
+            // Add and remove active class from the indicators (defensive)
+            function indicators(){
+                if(!dots || !Array.isArray(dots) || dots.length === 0) return;
+                // ensure counter within indicators range
+                if(counter >= dots.length) counter = counter % dots.length;
+                if(counter < 0) counter = 0;
+                dots.forEach(function(d){ if(d && typeof d.className === 'string') d.className = d.className.replace(/\s*active\b/,''); });
+                if(dots[counter] && typeof dots[counter].className === 'string') dots[counter].className = (dots[counter].className + ' active').trim();
+            }
+
+            // Add click event to the indicator
+            function switchImage(currentImage){
+                try{
+                    if(!currentImage) return;
+                    if(currentImage.classList) currentImage.classList.add('active');
+                    var imageId = parseInt(currentImage.getAttribute('attr'), 10);
+                    if(isNaN(imageId) || !slideImages || slideImages.length === 0) return;
+                    if(imageId > counter){
+                        if(slideImages[counter]) slideImages[counter].style.animation = 'next1 0.5s ease-in forwards';
+                        counter = imageId;
+                        if(slideImages[counter]) slideImages[counter].style.animation = 'next2 0.5s ease-in forwards';
+                    }
+                    else if(imageId == counter){
+                        return;
+                    }
+                    else{
+                        if(slideImages[counter]) slideImages[counter].style.animation = 'prev1 0.5s ease-in forwards';
+                        counter = imageId;
+                        if(slideImages[counter]) slideImages[counter].style.animation = 'prev2 0.5s ease-in forwards';
+                    }
+                    indicators();
+                }catch(e){ console.error('switchImage error', e); }
+            }
+        } catch(err) {
+            console.error('Carousel init error:', err);
+            // As a last resort, make first slide visible so UI isn't a solid black block
+            try{ var fallbackImg = document.querySelector('.slide-container .slides img'); if(fallbackImg) fallbackImg.setAttribute('data-loaded','true'); }catch(e){}
+        }
         
     
 
